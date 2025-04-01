@@ -59,23 +59,23 @@ public:
         FakeConVar* fakeTestConVar  = reinterpret_cast<FakeConVar*>(testConVarPtr);
         NOTE_UNUSED(fakeTestConVar);
         // BaseClass VFTable @ 0x0
-        CHECK_CONVAR_OFFSET_MEMBER(m_pNext,            0x04);
-        CHECK_CONVAR_OFFSET_MEMBER(m_bRegistered,      0x08);
-        CHECK_CONVAR_OFFSET_MEMBER(m_pszName,          0x0C);
-        CHECK_CONVAR_OFFSET_MEMBER(m_pszHelpString,    0x10);
-        CHECK_CONVAR_OFFSET_MEMBER(m_nFlags,           0x14);
+        CHECK_CONVAR_OFFSET_MEMBER(m_pNext,            0x08);
+        CHECK_CONVAR_OFFSET_MEMBER(m_bRegistered,      0x10);
+        CHECK_CONVAR_OFFSET_MEMBER(m_pszName,          0x18);
+        CHECK_CONVAR_OFFSET_MEMBER(m_pszHelpString,    0x20);
+        CHECK_CONVAR_OFFSET_MEMBER(m_nFlags,           0x28);
         // IConVar VFTable @ 0x18
-        CHECK_CONVAR_OFFSET_MEMBER(m_pParent,          0x1C);
-        CHECK_CONVAR_OFFSET_MEMBER(m_pszDefaultValue,  0x20);
-        CHECK_CONVAR_OFFSET_MEMBER(m_pszString,        0x24);
-        CHECK_CONVAR_OFFSET_MEMBER(m_StringLength,     0x28);
-        CHECK_CONVAR_OFFSET_MEMBER(m_fValue,           0x2C);
-        CHECK_CONVAR_OFFSET_MEMBER(m_nValue,           0x30);
-        CHECK_CONVAR_OFFSET_MEMBER(m_bHasMin,          0x34);
-        CHECK_CONVAR_OFFSET_MEMBER(m_fMinVal,          0x38);
-        CHECK_CONVAR_OFFSET_MEMBER(m_bHasMax,          0x3C);
-        CHECK_CONVAR_OFFSET_MEMBER(m_fMaxVal,          0x40);
-        CHECK_CONVAR_OFFSET_MEMBER(m_fnChangeCallback, 0x44);
+        CHECK_CONVAR_OFFSET_MEMBER(m_pParent,          0x38);
+        CHECK_CONVAR_OFFSET_MEMBER(m_pszDefaultValue,  0x40);
+        CHECK_CONVAR_OFFSET_MEMBER(m_pszString,        0x48);
+        CHECK_CONVAR_OFFSET_MEMBER(m_StringLength,     0x50);
+        CHECK_CONVAR_OFFSET_MEMBER(m_fValue,           0x54);
+        CHECK_CONVAR_OFFSET_MEMBER(m_nValue,           0x58);
+        CHECK_CONVAR_OFFSET_MEMBER(m_bHasMin,          0x5c);
+        CHECK_CONVAR_OFFSET_MEMBER(m_fMinVal,          0x60);
+        CHECK_CONVAR_OFFSET_MEMBER(m_bHasMax,          0x64);
+        CHECK_CONVAR_OFFSET_MEMBER(m_fMaxVal,          0x68);
+        CHECK_CONVAR_OFFSET_MEMBER(m_fnChangeCallback, 0x70);
 
 #if 1
         try

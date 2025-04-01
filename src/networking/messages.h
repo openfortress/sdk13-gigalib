@@ -82,6 +82,8 @@ public:
 	virtual const char *GetName( void ) const OVERRIDE			{ return "svc_EconMsg"; }
 	virtual INetChannel *GetNetChannel( void ) const OVERRIDE	{ return m_pNetChan; }
 	virtual const char *ToString( void ) const OVERRIDE;
+	virtual bool BIncomingMessageForProcessing( double dblNetTime, int numBytes ) OVERRIDE { return true; };
+	virtual size_t GetSize() const OVERRIDE;
 
 private:
 	bool m_bReliable;

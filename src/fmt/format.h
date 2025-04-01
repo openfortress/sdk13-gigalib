@@ -2498,16 +2498,16 @@ FMT_CONSTEXPR20 auto write_nonfinite(OutputIt out, bool isnan,
                                      const float_specs& fspecs) -> OutputIt {
   auto str =
       isnan ? (fspecs.upper ? "NAN" : "nan") : (fspecs.upper ? "INF" : "inf");
-  constexpr size_t str_size = 3;
+  constexpr size_t thing_size = 3;
   auto sign = fspecs.sign;
-  auto size = str_size + (sign ? 1 : 0);
+  auto size = thing_size + (sign ? 1 : 0);
   // Replace '0'-padding with space for non-finite values.
   const bool is_zero_fill =
       specs.fill.size() == 1 && *specs.fill.data() == static_cast<Char>('0');
   if (is_zero_fill) specs.fill[0] = static_cast<Char>(' ');
   return write_padded(out, specs, size, [=](reserve_iterator<OutputIt> it) {
     if (sign) *it++ = detail::sign<Char>(sign);
-    return copy_str<Char>(str, str + str_size, it);
+    return copy_str<Char>(str, str + thing_size, it);
   });
 }
 

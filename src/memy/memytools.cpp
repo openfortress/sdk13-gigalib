@@ -73,6 +73,11 @@ bool memy::Init()
     return true;
 }
 
+extern ConVar _sdkpath;
+
+#ifdef CLIENT_DLL
+extern ConVar _modpath;
+#endif
 
 bool memy::InitAllBins()
 {
@@ -92,38 +97,27 @@ bool memy::InitAllBins()
     char* clipath = client_bin->binpath;
     V_StripFilename(clipath);
     V_StripLastDir(clipath, MAX_PATH);
+
+#ifdef _WIN64
+    V_StripLastDir(clipath, MAX_PATH);
+#endif
+
     V_StripTrailingSlash(clipath);
 
-    ConVarRef modpath = ConVarRef("_modpath", false);
-    if (modpath.IsValid())
-    {
-        modpath.SetValue(clipath);
-    }
-    else
-    {
-        Error("Failed getting mod path!");
-    }
-
+    _modpath.SetValue(clipath);
 #endif
 
     char* engpath = engine_bin->binpath;
     V_StripFilename(engpath);
     V_StripLastDir(engpath, MAX_PATH);
+
+#ifdef _WIN64
+    V_StripLastDir(engpath, MAX_PATH);
+#endif
+
     V_StripTrailingSlash(engpath);
 
-#if defined (CLIENT_DLL)
-    ConVarRef sdkpath = ConVarRef("_sdkpath_cli", false);
-#elif defined (GAME_DLL)
-    ConVarRef sdkpath = ConVarRef("_sdkpath_srv", false);
-#endif
-    if (sdkpath.IsValid())
-    {
-        sdkpath.SetValue(engpath);
-    }
-    else
-    {
-        Error("Failed getting SDK2013 path!");
-    }
+    _sdkpath.SetValue(engpath);
 
     initEngineSpew();
     return true;

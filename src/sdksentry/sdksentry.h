@@ -28,11 +28,11 @@ public:
     std::atomic<bool>    didinit;
     std::atomic<bool>    didshutdown;
     std::atomic<bool>    crashed;
-    volatile sig_atomic_t    sentryLogFilePtr;
-    volatile sig_atomic_t    conFileFilePtr;
+    volatile uintptr_t    sentryLogFilePtr;
+    volatile uintptr_t    conFileFilePtr;
 
 #ifdef _WIN32
-    volatile sig_atomic_t    mainWindowHandle;
+    volatile uintptr_t    mainWindowHandle;
 #endif
 
     // ptr to game paths that we set up in sentry init

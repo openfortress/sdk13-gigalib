@@ -135,7 +135,7 @@ FORCEINLINE void DoDyingStuff()
         return;
     }
 
-    // guaruntee that there's a nul at the end
+    // guarantee that there's a nul at the end
     spew[spewSize - 1] = 0x0;
 
     // iterate starting from the end of the array
@@ -228,10 +228,10 @@ void AttachExtraCtxToSentryCrash(sentry_value_t event)
 sentry_value_t SENTRY_CRASHFUNC(const sentry_ucontext_t* uctx, sentry_value_t event, void* closure)
 {
     AssertMsg(0, "CRASHED - WE'RE IN THE SIGNAL HANDLER NOW SO BREAK IF YOU WANT");
-    
+
 
     AttachExtraCtxToSentryCrash(event);
-    
+
 
     // reentry guard - we already crashed, just bail
     if ( g_Sentry.crashed.load() )
@@ -258,7 +258,7 @@ sentry_value_t SENTRY_CRASHFUNC(const sentry_ucontext_t* uctx, sentry_value_t ev
     "If you've enabled crash reporting,\n"
     "we'll get right on that.\n";
 
-    const char* crashtitle = 
+    const char* crashtitle =
     "SDK13Mod crash handler - written by sappho.io";
 
 
@@ -360,7 +360,7 @@ CON_COMMAND_F(triggerError, "test", 0)
 #endif
 // int __cdecl sub_7920CAA0(char a1, char *Format, va_list ArgList)
 sdkdetour* InternalError{};
-#define InternalError_vars        bool makeDump, char* fmt, va_list arglist
+#define InternalError_vars        bool makeDump, const char* fmt, va_list arglist
 #define InternalError_novars      makeDump, fmt, arglist
 #define InternalError_origfunc    PLH::FnCast(InternalError->detourTrampoline, InternalError_CB)(InternalError_novars);
 void InternalError_CB(InternalError_vars)
@@ -400,7 +400,7 @@ void InternalError_CB(InternalError_vars)
     "If you've enabled error reporting,\n"
     "we'll take a look.\n";
 
-    const char* crashtitle = 
+    const char* crashtitle =
     "Engine Error(!)";
 
     std::string errWindow = fmt::format( FMT_STRING( "{:s}\nThe error was:\n{:s}" ), crashdialogue, errBuf);
@@ -423,10 +423,17 @@ void InternalError_Init()
 
     InternalError = new sdkdetour{};
 
-    // Unique string: "NetChannel removed.", which calls Shutdown immediately after
-    #ifdef _WIN32
+    // Unique string: "Engine error"
+
+    #if defined ( _WIN64 )
+        // Signature for sub_180208410:
+        // 40 53 48 81 EC 20 04 00 00 0F B6 D9
+        // \x40\x53\x48\x81\xEC\x20\x04\x00\x00\x0F\xB6\xD9
+        InternalError->patternSize = 12;
+        InternalError->pattern     = "\x40\x53\x48\x81\xEC\x20\x04\x00\x00\x0F\xB6\xD9";
+    #elif defined ( _WIN32 )
         // Signature for sub_7920CAA0:
-        // 55 8B EC 6A FF 68 ? ? ? ? 68 ? ? ? ? 
+        // 55 8B EC 6A FF 68 ? ? ? ? 68 ? ? ? ?
         InternalError->patternSize = 15;
         InternalError->pattern     = "\x55\x8B\xEC\x6A\xFF\x68\x2A\x2A\x2A\x2A\x68\x2A\x2A\x2A\x2A";
     #else
@@ -499,8 +506,8 @@ LONG CALLBACK VecXceptionHandler(EXCEPTION_POINTERS* info)
     //
     //    This produces the following numeric ranges:
     //
-    //      Success codes : 0x00000000�0x7FFFFFFF.
-    //      Error codes   : 0x80000000�0xFFFFFFFF.
+    //      Success codes : 0x00000000ï¿½0x7FFFFFFF.
+    //      Error codes   : 0x80000000ï¿½0xFFFFFFFF.
     // TL;DR? If we don't do this, we can catch benign debug stuff as errors...
     if (code < 0x80000000 && code != 0)
     {
@@ -542,6 +549,8 @@ LONG CALLBACK VecXceptionHandler(EXCEPTION_POINTERS* info)
     return EXCEPTION_EXECUTE_HANDLER;
 }
 
+extern ConVar _modpath;
+
 void CSentry::SentryInit()
 {
     DevMsg(2, "Sentry init!\n");
@@ -557,13 +566,14 @@ void CSentry::SentryInit()
     vec_handler_handle = AddVectoredExceptionHandler(1 /* first handler */, VecXceptionHandler);
 #endif
 
-    const char* mpath = ConVarRef("_modpath", false).GetString();
-    if (!mpath)
-    {
-        Error("Couldn't get ConVarRef for _modpath!\n");
-    }
+    const char* mpath = _modpath.GetString();
     std::string modpath_ss( mpath );
-#ifdef _WIN32
+
+#ifdef _WIN64
+    // location of the crashpad handler (in moddir/bin)
+    std::stringstream crash_exe;
+    crash_exe << modpath_ss << CORRECT_PATH_SEPARATOR << "bin" << CORRECT_PATH_SEPARATOR << "x64" << CORRECT_PATH_SEPARATOR << "crashpad_handler.exe";
+#elif defined (_WIN32)
     // location of the crashpad handler (in moddir/bin)
     std::stringstream crash_exe;
     crash_exe << modpath_ss << CORRECT_PATH_SEPARATOR << "bin" << CORRECT_PATH_SEPARATOR << "crashpad_handler.exe";
@@ -630,7 +640,7 @@ void CSentry::SentryInit()
 */
 
 
-    
+
     // using C here because we have to set up for our signal handler later
     char conLogLoc[MAX_PATH] = {};
     snprintf(conLogLoc, MAX_PATH, "%s", sentry_conlog.str().c_str());
@@ -665,7 +675,7 @@ void CSentry::SentryInit()
     DevMsg(2, "Sentry initialization success!\n");
 
 #ifdef _WIN32
-    mainWindowHandle = (sig_atomic_t)FindWindow("Valve001", NULL);
+    mainWindowHandle = (uintptr_t)FindWindow("Valve001", NULL);
 #endif
     InternalError_Init();
 
@@ -673,7 +683,7 @@ void CSentry::SentryInit()
     // get the current version of our consent
     sentry_user_consent_reset();
     sentry_callback(cl_send_error_reports.GetLinkedConVar(), "", -2.0);
-    
+
     // for adding cmdline to context on crash
     cmdline = new char[2048] {};
 #ifdef _WIN32
@@ -699,7 +709,7 @@ void CSentry::SentryInit()
         path_ss << str << "\n";
     }
     // path_ss << "\n";
-    
+
     gamePathsSize = path_ss.str().size();
     gamePaths = new char[gamePathsSize + 2] {};
     memcpy( (void*)gamePaths, path_ss.str().c_str(), gamePathsSize );
@@ -934,7 +944,7 @@ void SentrySetTags()
 	for (auto& element : cvarList)
 	{
         ConVarRef cRef(element.c_str(), true);
-        
+
         if (cRef.IsValid() && cRef.GetName() && cRef.GetString())
         {
             sentry_set_tag(cRef.GetName(), cRef.GetString());

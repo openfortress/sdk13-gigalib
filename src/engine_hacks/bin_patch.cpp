@@ -62,7 +62,7 @@ CBinPatch g_EnginePatches[] =
         // 48 89 5c 24 08 48 89 74 24 18 57 48 81 ec 50 01 00 00 48 63 c2 48 8d 99 68 01 00 00 48 69 d0 38 01 00 00 48 8b f1 48 03 da 48 83 bb 10 01 00 00 00 0f 84 ?? ?? ?? ?? 
         //
         // CNetChan::HandleUpload(char *, int)
-#if PLATFORM_64BITS
+#if _WIN64
         {
             AY_OBFUSCATE("\x48\x89\x5C\x24\x08\x48\x89\x74\x24\x18\x57\x48\x81\xEC\x50\x01\x00\x00\x48\x63\xC2\x48\x8D\x99\x68\x01\x00\x00\x48\x69\xD0\x38\x01\x00\x00\x48\x8B\xF1\x48\x03\xDA\x48\x83\xBB\x10\x01\x00\x00\x00\x0F\x84\x2A\x2A\x2A\x2A"),
             55,
@@ -85,7 +85,7 @@ CBinPatch g_EnginePatches[] =
         // Unique string: "CreateFragmentsFromFile: '%s' doesn't"
         //
         // CNetChan::CreateFragmentsFromFile(char const*, int, unsigned int)
-#if PLATFORM_64BITS
+#if _WIN64
         // offsets for the ConMsgs in this func are
         // 0xBA
         // 0x100
@@ -180,7 +180,7 @@ CBinPatch g_EnginePatches[] =
         // if ( (((v6 * *&dword_103C0274) + (v7 * *&dword_103C0278)) + (v8 * *&dword_103C027C)) >= -1.0 )
         //
         // R_DrawSkyBox
-#if PLATFORM_64BITS
+#if _WIN64
         {
             AY_OBFUSCATE("\x48\x8B\xC4\x55\x53\x41\x54\x41\x55\x48\x8D\xA8\xF8\xFC\xFF\xFF\x48\x81\xEC\xE8\x03\x00\x00\x33\xDB"),
             25,
@@ -208,7 +208,7 @@ CBinPatch g_EnginePatches[] =
         // Signature for FUN_1801A5C80 (64bit)
         // 4c 8b dc 49 89 5b 18 49 89 6b 20 56 57 41 54 41 56 41 57 48 83 ec 50 48 8b 05 ?? ?? ?? ?? 4c 8d 25 ?? ?? ?? ??
         // \x4C\x8B\xDC\x49\x89\x5B\x18\x49\x89\x6B\x20\x56\x57\x41\x54\x41\x56\x41\x57\x48\x83\xEC\x50\x48\x8B\x05\x2A\x2A\x2A\x2A\x4C\x8D\x25\x2A\x2A\x2A\x2A
-#if PLATFORM_64BITS
+#if _WIN64
         {
             AY_OBFUSCATE("\x4C\x8B\xDC\x49\x89\x5B\x18\x49\x89\x6B\x20\x56\x57\x41\x54\x41\x56\x41\x57\x48\x83\xEC\x50\x48\x8B\x05\x2A\x2A\x2A\x2A\x4C\x8D\x25\x2A\x2A\x2A\x2A"),
             37,
@@ -250,7 +250,7 @@ CBinPatch g_EnginePatches[] =
         // Signature for FUN_1800F1210 (64bits)
         // 48 89 5c 24 10 57 48 83 ec 30 48 8b da 48 8b f9 33 d2
         // \x48\x89\x5C\x24\x10\x57\x48\x83\xEC\x30\x48\x8B\xDA\x48\x8B\xF9\x33\xD2
-#if PLATFORM_64BITS
+#if _WIN64
         {
             AY_OBFUSCATE("\x48\x89\x5C\x24\x10\x57\x48\x83\xEC\x30\x48\x8B\xDA\x48\x8B\xF9\x33\xD2"),
             18,
@@ -314,7 +314,7 @@ CBinPatch g_EnginePatches[] =
        1800f1243 44 8b 05        MOV        R8D,dword ptr [DAT_18075008c]
                  42 ee 65 00
 */
-#if !PLATFORM_64BITS
+#if !_WIN64
         // rootlod
         // Signature for sub_100F12B0: (branch previous2021: 0x101083f0)
         // 6A 02 6A 00 68 ? ? ? ? E8 ? ? ? ? 83 C4 0C C3
@@ -357,7 +357,7 @@ CBinPatch g_EnginePatches[] =
         // Unique string: "Download file '%s' %s"
         //
         // CNetChan::HandleUpload(char *, int)
-#ifdef PLATFORM_64BITS
+#ifdef _WIN64
         {
             // Signature for FUN_0064b3b0:
             // 55 48 89 e5 40 57 40 56 40 55 40 54 48 89 f4 53 48 89 fb 48 81 ec 18 01 00 00 0f b6 05 ?? ?? ?? ?? 84 c0 74 ??
@@ -407,7 +407,7 @@ CBinPatch g_EnginePatches[] =
         // Unique string: "CreateFragmentsFromFile: '%s' doesn't"
         //
         // CNetChan::CreateFragmentsFromFile(char const*, int, unsigned int)
-        #ifdef PLATFORM_64BITS
+        #ifdef _WIN64
         {
             AY_OBFUSCATE("\x55\x48\x89\xE5\x40\x57\x40\x56\x40\x55\x48\x89\xFD\x40\x54\x48\x89\xF4\x53\x89\xCB\x48\x83\xEC\x28\x48\x8D\x3D\x2A\x2A\x2A\x2A"),
             32, // 15,
@@ -521,7 +521,7 @@ CBinPatch g_EnginePatches[] =
         // 100ed20c 0f 2f c8        COMISS   XMM1,XMM0
         // 100ed20f 0f 87 51        JA       LAB_100ed666
         //          04 00 00
-        #ifdef PLATFORM_64BITS
+        #ifdef _WIN64
         {
             AY_OBFUSCATE("\x55\x31\xC0\x48\x89\xE5\x40\x57\x40\x56\x40\x55\x40\x54\x40\x89\xFC\x53\x48\x81\xEC\x2A\x2A\x2A\x2A\x48\x8B\x1D\x2A\x2A\x2A\x2A\xF3\x0F\x11\x85\x7C\xFC\xFF\xFF\x48\xC7\x85\x80\xFC\xFF\xFF\x00\x00\x00\x00"),
             51,
@@ -550,7 +550,8 @@ void CBinary::PostInit()
     #ifdef GAME_DLL
         if (engine->IsDedicatedServer())
         {
-            bool didpatches = ApplyAllPatches();
+            // bool didpatches = ApplyAllPatches(); -- Disable for now
+            bool didpatches = true;
 
             if (!didpatches)
             {
@@ -569,7 +570,8 @@ void CBinary::PostInit()
             #endif
         }
     #else
-        bool didpatches = ApplyAllPatches();
+        // bool didpatches = ApplyAllPatches(); -- Disable for now
+        bool didpatches = true;
 
         if (!didpatches)
         {
@@ -746,6 +748,8 @@ CBinPatch:: CBinPatch(char* signature, size_t sigsize, size_t offset, bool immed
 CBinPatch:: CBinPatch(char* signature, size_t sigsize, size_t offset, bool immediate, char* bytes)
     :       CBinPatch(signature, sigsize, offset, immediate)
 {
+    // Disable for now
+    /*
     m_iPatchLength = strlen(bytes);
     m_pPatch = std::make_unique<char>(m_iPatchLength);
     memcpy(m_pPatch.get(), bytes, m_iPatchLength);
@@ -762,5 +766,6 @@ CBinPatch:: CBinPatch(char* signature, size_t sigsize, size_t offset, bool immed
 
         Warning("patchlen %s = %i / %i \n", hexstr, sizeof(bytes), strlen(bytes));
     #endif
+    */
 }
 #endif

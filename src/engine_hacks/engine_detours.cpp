@@ -364,7 +364,7 @@ void CNetChan__ProcessPacket_Init()
         // CNetChan__ProcessPacket->patternSize    = 12;
         // CNetChan__ProcessPacket->pattern        = "\x55\x8B\xEC\x51\x53\x56\x8B\xF1\x57\x8B\x7D\x08";
 
-        #ifdef PLATFORM_64BITS
+        #ifdef _WIN64
         // Signature for UndefinedFunction_1801d0330 (referenced by FUN_1801d07c0)
         // 40 88 44 24 18 48 89 54 24 10 53 56 40 55 40 56 40 57 48 83 ec 70 48 8d 7a 20 40 33 ed 48 8b f2 48 8b f1
         CNetChan__ProcessPacket->patternSize = 35;
@@ -377,7 +377,7 @@ void CNetChan__ProcessPacket_Init()
         #endif
 
     #else
-        #ifdef PLATFORM_64BITS
+        #ifdef _WIN64
         // Signature for FUN_0064e440:
         // 55 31 c0 48 89 e5 40 57 40 89 d7 40 56 40 55 40 54 48 89 fc 53 48 89 f3 48 83 ec 68 48 8b 2d ?? ?? ?? ??
         CNetChan__ProcessPacket->patternSize = 35;
@@ -455,7 +455,7 @@ void CBaseServer__RejectConnection_Init()
         sub_10155B50+9F   224 push    offset aSteamUseridSIs ; "STEAM UserID %s is banned" (unique)
         ...
     */
-#ifdef PLATFORM_64BITS
+#ifdef _WIN64
     // Signature for FUN_180150030:
     // 48 89 5c 24 08 48 89 6c 24 10 48 89 74 24 18 57 48 81 ec ?? ?? ?? ?? 48 8b f9 40 8b d8 48 8b f2 48 8b e9 40 b9 ?? ?? ?? ??
     CBaseServer__RejectConnection->patternSize = 41;
@@ -490,7 +490,7 @@ void CBaseServer__RejectConnection_Init()
         sub_56ED90+B7   25C mov     dword ptr [esp], offset aSteamUseridSIs ; "STEAM UserID %s is banned" (unique)
         ...
     */
-#ifdef PLATFORM_64BITS
+#ifdef _WIN64
     // Signature for FUN_005b85e0:
     // 55 48 89 e5 41 57 41 89 d7 ba ec 04 00 00
     CBaseServer__RejectConnection->patternSize = 14;
@@ -638,7 +638,7 @@ void CBaseServer__ConnectClient_Init()
     CBaseServer__ConnectClient = new sdkdetour{};
     // unique string: "CBaseServer::ConnectClient"
     #ifdef PLATFORM_WINDOWS
-    #ifdef PLATFORM_64BITS
+    #ifdef _WIN64
         // Signature for FUN_18014dc00 
         // 48 89 5c 24 10 40 89 4c 24 20 55 56 57 40 54 40 55 40 56 40 57 48 81 ec ?? ?? ?? ??
         CBaseServer__ConnectClient->patternSize = 28;
@@ -656,7 +656,7 @@ void CBaseServer__ConnectClient_Init()
         CBaseServer__ConnectClient->pattern = "\x55\x8B\xEC\x81\xEC\x24\x05\x00\x00\x53\x56\x57\x68\x2A\x2A\x2A\x2A";
     #endif
     #else
-    #ifdef PLATFORM_64BITS
+    #ifdef _WIN64
         // Signature for FUN_005bafe0:
         // 55 31 c0 48 89 e5 41 57 41 89 cf 41 56 41 89 d6 41 55 49 89 fd 41 54 48 8d 3d ?? ?? ?? ??
         CBaseServer__ConnectClient->patternSize = 30;
@@ -792,7 +792,7 @@ void CClientState__FullConnect_Init()
 
     // unique string: "Connected to %s\n"
     #ifdef PLATFORM_WINDOWS
-    #ifdef PLATFORM_64BITS
+    #ifdef _WIN64
         // Signature for   LAB_1800a29c0:
         // 48 89 5c 24 08 48 89 74 24 10 57 48 83 ec 20 48 8b f2 48 8b f9 e8 ?? ?? ?? ?? 48 8b 4f 20 48 8b 15 ?? ?? ?? ??
         CClientState__FullConnect->patternSize = 37;
@@ -804,7 +804,7 @@ void CClientState__FullConnect_Init()
         CClientState__FullConnect->pattern       = "\x55\x8B\xEC\x53\x8B\x5D\x08\x56\x57\x53\x8B\xF9\xE8\x2A\x2A\x2A\x2A\x8B\x4F\x10";
     #endif
     #else
-    #ifdef PLATFORM_64BITS
+    #ifdef _WIN64
         // Signature for FUN_004eef50:
         // 55 48 89 e5 41 56 41 55 41 54 49 89 f4 53 48 89 fb e8 ?? ?? ?? ??
         CClientState__FullConnect->patternSize = 22;
@@ -869,7 +869,7 @@ void CNetChan__Shutdown_Init()
 
     // Unique string: "NetChannel removed.", which calls Shutdown immediately after
     #ifdef PLATFORM_WINDOWS
-    #ifdef PLATFORM_64BITS
+    #ifdef _WIN64
         // Signature for sub_101CCA10:
         // 55 8B EC 83 EC 10 56 8B F1 83 BE 8C 00 00 00 00
         CNetChan__Shutdown->patternSize = 29;
@@ -881,7 +881,7 @@ void CNetChan__Shutdown_Init()
         CNetChan__Shutdown->pattern     = "\x55\x8B\xEC\x83\xEC\x10\x56\x8B\xF1\x83\xBE\x8C\x00\x00\x00\x00";
     #endif
     #else
-    #ifdef PLATFORM_64BITS
+    #ifdef _WIN64
         // Signature for FUN_0064c9c0:
         // 44 8b 87 ?? ?? ?? ?? 45 85 c0 0f 88 ?? ?? ?? ?? 55 48 89 e5 41 56 41 55 49 89 f5 41 54 49 89 fc 53 48 8b ?? ff ?? ?? ?? ?? ??
         CNetChan__Shutdown->patternSize = 42;

@@ -7,7 +7,10 @@ extern "C" { FILE __iob_func[3] = { *stdin,*stdout,*stderr }; }
 #endif
 
 
-#ifdef _WIN32
+#ifdef _WIN64
+    #define curlLibPath "../shared/sdk13-gigalib/bin/curl/lib/x64/"
+    #pragma comment( lib, curlLibPath "libcurl.dll.a"               )
+#elif defined(_WIN32)
 
     #define curlLibPath "../shared/sdk13-gigalib/bin/curl/lib/"
 

@@ -227,3 +227,8 @@ const char *CEconNetMsg::ToString( void ) const
 	V_sprintf_safe( szString, "%s: type %d", GetName(), m_pPacket->Hdr().m_eMsgType );
 	return szString;
 }
+
+size_t CEconNetMsg::GetSize( ) const
+{
+	return (size_t)m_pPacket->Size();
+}

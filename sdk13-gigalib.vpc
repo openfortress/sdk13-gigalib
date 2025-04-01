@@ -2,32 +2,9 @@ $Macro gigalibloc     "$SRCDIR\game\shared\sdk13-gigalib\src"
 $Macro gigalibbinloc     "$SRCDIR\game\shared\sdk13-gigalib\bin"
 
 $Macro GENERATED_PROTO_DIR "$SRCDIR\game\shared\sdk13-gigalib\src\networking\"
-// $Include "$gigalibloc/../protobuf_builder.vpc"
-$MacroRequired  GENERATED_PROTO_DIR
-
-$CustomBuildStep "proto"
-{
-    $Description    "Running Protocol Buffer Compiler on $(InputFileName)..."
-    $CommandLine    "if not exist $GENERATED_PROTO_DIR mkdir $GENERATED_PROTO_DIR" "\n" \
-                    "$gigalibbinloc\protobuf\protoc.exe --proto_path=$gigalibloc\protobuf\src --proto_path=$(InputDir) --proto_path=$gigalibloc\networking --cpp_out=$GENERATED_PROTO_DIR $(InputPath)" [$WINDOWS]
-
-
-    $CommandLine    "mkdir $GENERATED_PROTO_DIR 2> /dev/null;"  \
-                    "$gigalibbinloc/protobuf/protoc --proto_path=$gigalibloc\protobuf\src --proto_path=$(InputDir) --proto_path=$gigalibloc\networking --cpp_out=$GENERATED_PROTO_DIR $(InputPath)" [$LINUXALL]
-    $Outputs        "$GENERATED_PROTO_DIR\$(InputName).pb.cc;$GENERATED_PROTO_DIR\$(InputName).pb.h"
-}
-
-$Project
-{
-    $Folder "Link Libraries"
-    {
-        // defined in networking.h
-        // $Libexternal    "$gigalibloc\..\bin\libprotobuf"    [$WIN32]
-        $Libexternal    "$gigalibloc\..\bin\libprotobuf"    [$LINUX]
-    }
-}
-
-
+$Macro ADDITIONAL_PROTOC_ARGS " --proto_path=$gigalibloc\networking "
+$Include "$SRCDIR/vpc_scripts/protobuf_builder.vpc"
+$Include "$SRCDIR/game/protobuf_include.vpc"
 
 $Configuration
 {
@@ -66,10 +43,10 @@ $Configuration
 
     $Linker
     {
-        $AdditionalDependencies             "$BASE wsock32.lib" [$WIN32]
-        $AdditionalDependencies             "$BASE ws2_32.lib"  [$WIN32]
-        $AdditionalDependencies             "$BASE wldap32.lib" [$WIN32]
-        // $AdditionalDependencies          "$BASE msvcrtd.lib" [$WIN32]
+        $AdditionalDependencies             "$BASE wsock32.lib" [$WINDOWS]
+        $AdditionalDependencies             "$BASE ws2_32.lib"  [$WINDOWS]
+        $AdditionalDependencies             "$BASE wldap32.lib" [$WINDOWS]
+        // $AdditionalDependencies          "$BASE msvcrtd.lib" [$WINDOWS]
     }
 }
 
@@ -157,7 +134,7 @@ $Project
                 $File   "$gigalibloc/qol/blacklists.cpp"
                 $File   "$gigalibloc/qol/blacklists.h"
             }
-            $Folder "sdkCURL" [$WIN32]
+            $Folder "sdkCURL" [$WINDOWS]
             {
                 $File   "$gigalibloc/sdkCURL/sdkCURL.cpp"
                 $File   "$gigalibloc/sdkCURL/sdkCURL.h"
@@ -262,6 +239,16 @@ $Project
     {
         $ImpLib             "$gigalibloc\..\bin\sentry"                     [$WIN32]
         $ImpLib             "$gigalibloc\..\bin\fmt"                        [$WIN32]
+        $ImpLib             "$gigalibloc\..\bin\x64\sentry"                 [$WIN64]
+        $ImpLib             "$gigalibloc\..\bin\x64\fmt"                    [$WIN64]
+		{
+			$Configuration "Debug" 	{ $ExcludedFromBuild "Yes" }
+		}
+
+        $ImpLib             "$gigalibloc\..\bin\x64\fmtd"                    [$WIN64]
+		{
+			$Configuration "Release" 	{ $ExcludedFromBuild "Yes" }
+		}
 
         // sentry
         $Lib                "$gigalibloc\..\bin\libbreakpad_client"         [$LINUX]

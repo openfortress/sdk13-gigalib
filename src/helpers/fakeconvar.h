@@ -3,7 +3,7 @@
 
 #include <convar.h>
 #include <iconvar.h>
- 
+
 #include <inc_cpp_stdlib.h>
 
 // Reimplementation of sdk13 ConCommandBase class so we can poke at internals
@@ -20,41 +20,38 @@ public:
     // needed for class/struct memory alignment,
     // so we have a vftable ptr at 0x0 on the class
     // this should never be called
-    virtual void                        doNothing() = delete;
+    virtual void doNothing() = delete;
 
     // Next ConVar in chain
     // Prior to register, it points to the next convar in the DLL.
     // Once registered, though, m_pNext is reset to point to the next
     // convar in the global list
-    FakeConCommandBase*                 m_pNext;
+    FakeConCommandBase *m_pNext;
 
     // Has the cvar been added to the global list?
-    bool                                m_bRegistered;
+    bool m_bRegistered;
 
     // Static data
-    const char*                         m_pszName;
-    const char*                         m_pszHelpString;
+    const char *m_pszName;
+    const char *m_pszHelpString;
 
     // ConVar flags
-    int                                 m_nFlags;
+    int m_nFlags;
 
-
-
-    // ConVars add themselves to this list for the executable. 
-    // Then ConVar_Register runs through  all the console variables 
+    // ConVars add themselves to this list for the executable.
+    // Then ConVar_Register runs through  all the console variables
     // and registers them into a global list stored in vstdlib.dll
-    static FakeConCommandBase*          s_pConCommandBases;
+    static FakeConCommandBase *s_pConCommandBases;
 
     // ConVars in this executable use this 'global' to access values.
-    static IConCommandBaseAccessor*     s_pAccessor;
-
+    static IConCommandBaseAccessor *s_pAccessor;
 
     FORCEINLINE_CVAR void Shutdown_HACK()
     {
         Assert(g_pCVar);
         if (g_pCVar)
         {
-            g_pCVar->UnregisterConCommand( reinterpret_cast<ConCommandBase*>(this) );
+            g_pCVar->UnregisterConCommand(reinterpret_cast<ConCommandBase *>(this));
         }
     }
 };
@@ -84,28 +81,36 @@ public:
     // This either points to "this" or it points to the original declaration of a ConVar.
     // This allows ConVars to exist in separate modules, and they all use the first one to be declared.
     // m_pParent->m_pParent must equal m_pParent (ie: m_pParent must be the root, or original, ConVar).
-    FakeConVar* m_pParent;
+    FakeConVar *m_pParent;
 
     // Static data
-    const char* m_pszDefaultValue;
+    const char *m_pszDefaultValue;
 
     // Value
     // Dynamically allocated
-    char* m_pszString;
-    int                         m_StringLength;
+    char *m_pszString;
+    int m_StringLength;
 
     // Values
-    float                       m_fValue;
-    int                         m_nValue;
+    float m_fValue;
+    int m_nValue;
 
     // Min/Max values
-    bool                        m_bHasMin;
-    float                       m_fMinVal;
-    bool                        m_bHasMax;
-    float                       m_fMaxVal;
+    bool m_bHasMin;
+    float m_fMinVal;
+    bool m_bHasMax;
+    float m_fMaxVal;
 
     // Call this function when ConVar changes
-    FnChangeCallback_t          m_fnChangeCallback;
+    FnChangeCallback_t m_fnChangeCallback;
+
+    // Min/Max values for competitive.
+    bool m_bHasCompMin;
+    float m_fCompMinVal;
+    bool m_bHasCompMax;
+    float m_fCompMaxVal;
+
+    bool m_bCompetitiveRestrictions;
 
     // ANYTHING PAST HERE NEEDS TO BE FORCEINLINED
     FORCEINLINE_CVAR void SetMin(float min)
@@ -140,28 +145,28 @@ public:
 };
 
 // prevent our layout from breaking terribly
-static_assert(std::is_polymorphic_v<ConCommandBase>             == true, "ConCommandBase        must be polymorphic!");
-static_assert(std::is_polymorphic_v<FakeConCommandBase>         == true, "FakeConCommandBase    must be polymorphic!");
+static_assert(std::is_polymorphic_v<ConCommandBase> == true, "ConCommandBase        must be polymorphic!");
+static_assert(std::is_polymorphic_v<FakeConCommandBase> == true, "FakeConCommandBase    must be polymorphic!");
 
-static_assert(std::is_polymorphic_v<ConVar>                     == true, "ConVar        must be polymorphic!");
-static_assert(std::is_polymorphic_v<FakeConVar>                 == true, "FakeConVar    must be polymorphic!");
+static_assert(std::is_polymorphic_v<ConVar> == true, "ConVar        must be polymorphic!");
+static_assert(std::is_polymorphic_v<FakeConVar> == true, "FakeConVar    must be polymorphic!");
 
-static_assert(std::is_standard_layout_v<ConCommandBase>         == false, "ConCommandBase       should never be a standard layout - aka Plain Old Data!");
-static_assert(std::is_standard_layout_v<FakeConCommandBase>     == false, "FakeConCommandBase   should never be a standard layout - aka Plain Old Data!");
+static_assert(std::is_standard_layout_v<ConCommandBase> == false, "ConCommandBase       should never be a standard layout - aka Plain Old Data!");
+static_assert(std::is_standard_layout_v<FakeConCommandBase> == false, "FakeConCommandBase   should never be a standard layout - aka Plain Old Data!");
 
-static_assert(std::is_standard_layout_v<ConVar>                 == false, "ConVar       should never be a standard layout - aka Plain Old Data!");
-static_assert(std::is_standard_layout_v<FakeConVar>             == false, "FakeConVar   should never be a standard layout - aka Plain Old Data!");
+static_assert(std::is_standard_layout_v<ConVar> == false, "ConVar       should never be a standard layout - aka Plain Old Data!");
+static_assert(std::is_standard_layout_v<FakeConVar> == false, "FakeConVar   should never be a standard layout - aka Plain Old Data!");
 
-static_assert(sizeof(FakeConCommandBase)    == sizeof(ConCommandBase),  "size mismatch between Fake/ConCommandBase!");
-static_assert(sizeof(FakeConVar)            == sizeof(ConVar),          "size mismatch between Fake/ConVar!");
+static_assert(sizeof(FakeConCommandBase) == sizeof(ConCommandBase), "size mismatch between Fake/ConCommandBase!");
+static_assert(sizeof(FakeConVar) == sizeof(ConVar), "size mismatch between Fake/ConVar!");
 
-static_assert(sizeof(ConCommandBase)        == 24, "ConCommandBase  size != expected size of 24! Did you change ConVar.h?");
-static_assert(sizeof(ConVar)                == 72, "ConVar          size != expected size of 72! Did you change ConVar.h?");
+static_assert(sizeof(ConCommandBase) == 48, "ConCommandBase  size != expected size of 48! Did you change ConVar.h?");
+static_assert(sizeof(ConVar) == 144, "ConVar          size != expected size of 144! Did you change ConVar.h?");
 
-static_assert(alignof(FakeConCommandBase)   == alignof(ConCommandBase), "alignof mismatch between Fake/ConCommandBase!");
-static_assert(alignof(FakeConVar)           == alignof(ConVar),         "alignof mismatch between Fake/ConVar!");
+static_assert(alignof(FakeConCommandBase) == alignof(ConCommandBase), "alignof mismatch between Fake/ConCommandBase!");
+static_assert(alignof(FakeConVar) == alignof(ConVar), "alignof mismatch between Fake/ConVar!");
 
-static_assert(alignof(ConCommandBase)       == 4, "alignof Fake/ConCommandBase should be 4!");
-static_assert(alignof(ConVar)               == 4, "alignof Fake/ConVar should be 4!");
+static_assert(alignof(ConCommandBase) == 8, "alignof Fake/ConCommandBase should be 8!");
+static_assert(alignof(ConVar) == 8, "alignof Fake/ConVar should be 8!");
 
 #endif

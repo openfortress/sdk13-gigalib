@@ -11,15 +11,10 @@ enum FLUSH_CUSTOM_CONTENT
     FLUSH_SPRAYS_VTFS   = 4,
 };
 
+extern ConVar _modpath;
+
 void FlushContent(FLUSH_CUSTOM_CONTENT FLUSH)
 {
-    ConVarRef _modpath = ConVarRef("_modpath");
-    if (!_modpath.IsValid())
-    {
-        Warning("NULL ConVar* _modpath? Report this to a developer! Failing...\n");
-        return;
-    }
-    
     const char* modpath = _modpath.GetString();
     
     V_StripTrailingSlash( (char*)modpath );

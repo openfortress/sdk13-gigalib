@@ -12,7 +12,12 @@
 #include <valve_minmax_off.h>
 #define ZYDIS_DEPRECATED
 #include <polyhook2/IHook.hpp>
+
+#ifdef _WIN64
+#include <polyhook2/Detour/x64Detour.hpp>
+#else
 #include <polyhook2/Detour/x86Detour.hpp>
+#endif
 
 #include <valve_minmax_on.h>
 
@@ -20,11 +25,25 @@
 // hack because theres no macro for DEBUG that i can find
 // feel free to PR to add it to vpc if you know of one
 #ifdef DEBUG
-    #pragma comment( lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/PolyHook_2.lib" )
-    #pragma comment( lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/Zydis.lib" )
+#ifdef _WIN64
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/x64/PolyHook_2.lib")
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/x64/Zydis.lib")
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/x64/asmjit.lib")
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/x64/asmtk.lib")
 #else
-    #pragma comment( lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/PolyHook_2.lib" )
-    #pragma comment( lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/Zydis.lib" )
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/PolyHook_2.lib")
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/Zydis.lib")
+#endif
+#else
+#ifdef _WIN64
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/x64/PolyHook_2.lib")
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/x64/Zydis.lib")
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/x64/asmjit.lib")
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/x64/asmtk.lib")
+#else
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/PolyHook_2.lib")
+#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/Zydis.lib")
+#endif
 #endif
 #endif
 
@@ -84,7 +103,11 @@ public:
     size_t patternSize          = {};
     const char* pattern         = {};
     uintptr_t patternAddr       = {};
+#ifdef _WIN64
+    PLH::x64Detour* detourPtr   = {};
+#else
     PLH::x86Detour* detourPtr   = {};
+#endif
     //uint64_t callbackAddr       = {};
     uint64_t detourTrampoline   = {};
 };
@@ -102,7 +125,11 @@ static void populateAndInitDetour(sdkdetour* detour, void* callback)
     {
         Error("Could not get address for detour!");
     }
+#ifdef _WIN64
+    detour->detourPtr = new PLH::x64Detour
+#else
     detour->detourPtr = new PLH::x86Detour
+#endif
     (
         (const uint64_t)detour->patternAddr,
         (const uint64_t)(callback),

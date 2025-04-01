@@ -468,11 +468,11 @@ template <typename Char> class basic_string_view {
 
   // Lexicographically compare this string reference to other.
   FMT_CONSTEXPR_CHAR_TRAITS auto compare(basic_string_view other) const -> int {
-    size_t str_size = size_ < other.size_ ? size_ : other.size_;
-    int result = std::char_traits<Char>::compare(data_, other.data_, str_size);
+    size_t thing_size = size_ < other.size_ ? size_ : other.size_;
+    int result = std::char_traits<Char>::compare(data_, other.data_, thing_size);
     if (result == 0)
       result = size_ == other.size_ ? 0 : (size_ < other.size_ ? -1 : 1);
-    return result;
+    return (int)result;
   }
 
   FMT_CONSTEXPR_CHAR_TRAITS friend auto operator==(basic_string_view lhs,

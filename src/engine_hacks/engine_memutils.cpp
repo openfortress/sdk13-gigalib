@@ -6,7 +6,7 @@
 #include <atomic>
 #include <csignal>
 
-volatile sig_atomic_t GetSpewPtr = NULL;
+volatile uintptr_t GetSpewPtr = NULL;
 bool initEngineSpew()
 {
 	    /*                     v-- unique string -------------v
@@ -46,7 +46,7 @@ bool initEngineSpew()
 				 ff
     */
 #ifdef _WINDOWS
-#ifdef PLATFORM_64BITS
+#ifdef _WIN64
 	//Signature for FUN_18020ac30:
 	// 48 8b c4 48 89 58 10 48 89 70 18 48 89 48 08 57 41 56 41 57 48 81 ec 70 02 00 00 0f 29 70 d8 0f 29 78 c8 4c 8b f9 49 c7 c6 ff ff ff ff
 	static constexpr const char* pattern = "\x48\x8B\xC4\x48\x89\x58\x10\x48\x89\x70\x18\x48\x89\x48\x08\x57\x41\x56\x41\x57\x48\x81\xEC\x70\x02\x00\x00\x0F\x29\x70\xD8\x0F\x29\x78\xC8\x4C\x8B\xF9\x49\xC7\xC6\xFF\xFF\xFF\xFF";
@@ -77,7 +77,7 @@ bool initEngineSpew()
 //  static constexpr const char*    pattern     = "\x55\x89\xE5\x57\x56\x53\x83\xEC\x2C\x8B\x7D\x08\x8B\x75\x0C\xE8\x2A\x2A\x2A\x2A";
 //  static constexpr size_t         patternSize = 20;
 //#else
-#ifdef PLATFORM_64BITS
+#ifdef _WIN64
 	// Signature for FUN_0069b3e0:
 	// 55 48 8d 0d ?? ?? ?? ?? 48 89 e5 41 57 41 56 49 89 fe 41 55 49 89 f5 41 54 4c 8d 25 ?? ?? ?? ??
 	static constexpr const char* pattern = "\x55\x48\x8D\x0D\x2A\x2A\x2A\x2A\x48\x89\xE5\x41\x57\x41\x56\x49\x89\xFE\x41\x55\x49\x89\xF5\x41\x54\x4C\x8D\x25\x2A\x2A\x2A\x2A";
