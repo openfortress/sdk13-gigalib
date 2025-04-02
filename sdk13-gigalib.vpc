@@ -1,5 +1,9 @@
 $Macro gigalibloc     "$SRCDIR\game\shared\sdk13-gigalib\src"
-$Macro gigalibbinloc     "$SRCDIR\game\shared\sdk13-gigalib\bin"
+
+$Macro gigalibbinloc     "$SRCDIR\game\shared\sdk13-gigalib\bin\win32" [$WIN32]
+$Macro gigalibbinloc     "$SRCDIR\game\shared\sdk13-gigalib\bin\win64" [$WIN64]
+$Macro gigalibbinloc     "$SRCDIR\game\shared\sdk13-gigalib\bin\linux32" [$LINUX32]
+$Macro gigalibbinloc     "$SRCDIR\game\shared\sdk13-gigalib\bin\linux64" [$LINUX64]
 
 $Macro GENERATED_PROTO_DIR "$SRCDIR\game\shared\sdk13-gigalib\src\networking\"
 $Macro ADDITIONAL_PROTOC_ARGS " --proto_path=$gigalibloc\networking "
@@ -237,43 +241,45 @@ $Project
 
     $Folder "Link Libraries"
     {
-        $ImpLib             "$gigalibloc\..\bin\sentry"                     [$WIN32]
-        $ImpLib             "$gigalibloc\..\bin\fmt"                        [$WIN32]
-        $ImpLib             "$gigalibloc\..\bin\x64\sentry"                 [$WIN64]
-        $ImpLib             "$gigalibloc\..\bin\x64\fmt"                    [$WIN64]
+        // Windows
+        // Sentry
+        $ImpLib             "$gigalibbinloc\sentry"                 [$WINDOWS]
+
+        // fmt
+        $ImpLib             "$gigalibbinloc\fmt"                    [$WIN32]
+        $ImpLib             "$gigalibbinloc\fmt"                    [$WIN64]
 		{
 			$Configuration "Debug" 	{ $ExcludedFromBuild "Yes" }
 		}
 
-        $ImpLib             "$gigalibloc\..\bin\x64\fmtd"                    [$WIN64]
+        $ImpLib             "$gigalibbinloc\fmtd"                    [$WIN64]
 		{
 			$Configuration "Release" 	{ $ExcludedFromBuild "Yes" }
 		}
 
+        // Linux
         // sentry
-        $Lib                "$gigalibloc\..\bin\libbreakpad_client"         [$LINUX]
-        $Lib                "$gigalibloc\..\bin\libsentry"                  [$LINUX]
+        $Lib                "$gigalibbinloc\libbreakpad_client"         [$LINUX]
+        $Lib                "$gigalibbinloc\libsentry"                  [$LINUX]
         // bin patching
-        $Lib                "$gigalibloc\..\bin\libPolyHook_2"              [$LINUX]
-        $Lib                "$gigalibloc\..\bin\libZydis"                   [$LINUX]
+        $Lib                "$gigalibbinloc\libPolyHook_2"              [$LINUX]
+        $Lib                "$gigalibbinloc\libZydis"                   [$LINUX]
         // fmt
-        $Lib                "$gigalibloc\..\bin\libfmt"                     [$LINUX]
+        $Lib                "$gigalibbinloc\libfmt"                     [$LINUX]
         // sdl
-        $ImpLibExternal     "$gigalibloc\..\bin\SDL2"                       [$LINUX]
+        $ImpLibExternal     "$gigalibbinloc\SDL2"                       [$LINUX]
 
         // curl
         // $ImpLibExternal      "libcurl"
-       // $ImpLibExternal      "libcurl"
-    //    $ImpLibExternal         "$gigalibloc\..\bin\curl"                       [$LINUX]
-//"$gigalibloc\..\bin\libcurl"                [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libbrotlicommon-static" [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libbrotlidec-static"    [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libbrotlienc-static"    [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libcrypto"              [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libnghttp2"             [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libssh2"                [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libssl"                 [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libz"                   [$LINUX]
-        // $Lib                 "$gigalibloc\..\bin\libzstd"                [$LINUX]
+        // $ImpLibExternal      "$gigalibbinloc\curl"                   [$LINUX]
+        // $Lib                 "$gigalibbinloc\libbrotlicommon-static" [$LINUX]
+        // $Lib                 "$gigalibbinloc\libbrotlidec-static"    [$LINUX]
+        // $Lib                 "$gigalibbinloc\libbrotlienc-static"    [$LINUX]
+        // $Lib                 "$gigalibbinloc\libcrypto"              [$LINUX]
+        // $Lib                 "$gigalibbinloc\libnghttp2"             [$LINUX]
+        // $Lib                 "$gigalibbinloc\libssh2"                [$LINUX]
+        // $Lib                 "$gigalibbinloc\libssl"                 [$LINUX]
+        // $Lib                 "$gigalibbinloc\libz"                   [$LINUX]
+        // $Lib                 "$gigalibbinloc\libzstd"                [$LINUX]
     }
 }
