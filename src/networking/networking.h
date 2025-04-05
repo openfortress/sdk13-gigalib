@@ -1,17 +1,20 @@
 #ifndef ECON_NETWORKING_H
+
 #define ECON_NETWORKING_H
+
 #ifdef _WIN32
 #pragma once
-#endif
+#endif // _WIN32
 
 
 #ifdef _WIN32
-
-
 #ifndef PROTOLIBS_DEFD_H
-#define PROTOLIBS_DEFD_H
 
+#define PROTOLIBS_DEFD_H
 // #define OVERRIDE override
+
+#endif // PROTOLIBS_DEFD_H
+#endif // _WIN32
 
 #include "steam/isteamclient.h"
 #include "steam/isteamnetworking.h"
