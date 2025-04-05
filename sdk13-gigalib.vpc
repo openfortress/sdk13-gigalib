@@ -7,6 +7,7 @@ $Macro gigalibbinloc     "$SRCDIR\game\shared\sdk13-gigalib\bin\linux64" [$LINUX
 
 $Macro GENERATED_PROTO_DIR "$SRCDIR\game\shared\sdk13-gigalib\src\networking\"
 $Macro ADDITIONAL_PROTOC_ARGS " --proto_path=$gigalibloc\networking "
+
 $Include "$SRCDIR/vpc_scripts/protobuf_builder.vpc"
 $Include "$SRCDIR/game/protobuf_include.vpc"
 
@@ -155,25 +156,6 @@ $Project
                 $File   "$gigalibloc/sdkCURL/vendored/urlapi.h"
                 $File   "$gigalibloc/sdkCURL/vendored/websockets.h"
             }
-            //$Folder "sdknanopb"
-            //{
-            //    $File   "$gigalibloc/sdknanopb/vendored/pb_common.c" \
-            //            "$gigalibloc/sdknanopb/vendored/pb_decode.c" \
-            //            "$gigalibloc/sdknanopb/vendored/pb_encode.c"
-            //    {
-            //        $Configuration
-            //        {
-            //            $Compiler
-            //            {
-            //                $Create/UsePrecompiledHeader    "Not Using Precompiled Headers"
-            //            }
-            //        }
-            //    }
-			//
-            //    $File   "$gigalibloc/sdknanopb/vendored/pb_common.h"
-            //    $File   "$gigalibloc/sdknanopb/vendored/pb_encode.h"
-            //    $File   "$gigalibloc/sdknanopb/vendored/pb.h"
-            //}
             $Folder "speedykv"
             {
                 $File   "$gigalibloc/speedykv/speedykv.cpp"
@@ -193,93 +175,104 @@ $Project
 
     }
 
-	// $Lib:
-	//   windows:
-	//     if dedicated sv:
-	//       path == <name>_srv.lib
-	//     else:
-	//       path == <name>.lib
-	//   linux:
-	//     if dedicated sv:
-	//       path == <name>_srv.a
-	//     else:
-	//       path == <name>.a
-	// 
-	// $LibExternal:
-	//   windows:
-	//     path == <name>.lib
-	//   linux:
-	//     path == <name>.a
-	// 
-	// $ImpLib:
-	//   windows:
-	//     if dedicated sv:
-	//       path == <name>_srv.lib
-	//     else:
-	//       path == <name>.lib
-	//   linux:
-	//     if dedicated sv:
-	//       path == <name>_srv.so
-	//     else:
-	//       path == <name>.so
-	// 
-	// $ImpLibExternal:
-	//   windows:
-	//     path == <name>.lib
-	//   linux:
-	//     path == <name>.so
-	// 
-	// TLDR:
-	// 
-	// use ImpLib for internally compiled shared libraries
-	// use ImpLibExternal externally compiled shared libraries
-	// 
-	// use Lib for internally compiled static libraries
-	// use LibExternal for externally compiled static libraries
-
-
-
-    $Folder "Link Libraries"
+    $Folder "Link Libraries" [$WINDOWS]
     {
-        // Windows
         // Sentry
-        $ImpLib             "$gigalibbinloc\sentry"                 [$WINDOWS]
+        $ImpLib  "$gigalibbinloc\sentry"
+
+        // Binary patching libraries
+        /// Debug
+        $Lib     "$gigalibbinloc\debug\PolyHook_2"
+        {
+            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+        }
+        $Lib     "$gigalibbinloc\debug\Zydis"
+        {
+            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+        }
+        $Lib     "$gigalibbinloc\debug\asmjit"                       [$WIN64]
+        {
+            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+        }
+        $Lib     "$gigalibbinloc\debug\asmtk"                        [$WIN64]
+        {
+            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+        }
+
+        /// Release
+        $Lib     "$gigalibbinloc\release\PolyHook_2"
+        {
+            $Configuration "Debug" { $ExcludedFromBuild "Yes" }
+        }
+        $Lib     "$gigalibbinloc\release\Zydis"
+        {
+            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+        }
+        $Lib     "$gigalibbinloc\release\asmjit"                     [$WIN64]
+        {
+            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+        }
+        $Lib     "$gigalibbinloc\release\asmtk"                      [$WIN64]
+        {
+            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+        }
 
         // fmt
-        $ImpLib             "$gigalibbinloc\fmt"                    [$WIN32]
-        $ImpLib             "$gigalibbinloc\fmt"                    [$WIN64]
+        $ImpLib   "$gigalibbinloc\fmt"
 		{
 			$Configuration "Debug" 	{ $ExcludedFromBuild "Yes" }
 		}
 
-        $ImpLib             "$gigalibbinloc\fmtd"                    [$WIN64]
+        $ImpLib   "$gigalibbinloc\fmtd"
 		{
 			$Configuration "Release" 	{ $ExcludedFromBuild "Yes" }
 		}
 
-        // Linux
-        // sentry
-        $Lib                "$gigalibbinloc\libbreakpad_client"         [$LINUX]
-        $Lib                "$gigalibbinloc\libsentry"                  [$LINUX]
-        // bin patching
-        $Lib                "$gigalibbinloc\libPolyHook_2"              [$LINUX]
-        $Lib                "$gigalibbinloc\libZydis"                   [$LINUX]
+        // curl
+        $ImpLibExternal "$gigalibbinloc\libcurl"
+
+        // protobuf
+        // We're using SDK protobuf after update, is this needed?
+
+        // $Lib     "$gigalibbinloc\libprotobufd"
+        // {
+        //     $Configuration "Release" { $ExcludedFromBuild "Yes" }
+        // }
+
+        // $Lib     "$gigalibbinloc\libprotobuf"
+        // {
+        //     $Configuration "Debug" { $ExcludedFromBuild "Yes" }
+        // }
+    }
+
+    $Folder "Link Libraries" [$LINUX]
+    {
+        // Sentry
+        $Lib                "$gigalibbinloc\libbreakpad_client"
+        $Lib                "$gigalibbinloc\libsentry"
+
+        // Binary patching libraries
+        $Lib                "$gigalibbinloc\libPolyHook_2"
+        $Lib                "$gigalibbinloc\libZydis"
+
         // fmt
-        $Lib                "$gigalibbinloc\libfmt"                     [$LINUX]
-        // sdl
-        $ImpLibExternal     "$gigalibbinloc\SDL2"                       [$LINUX]
+        $Lib                "$gigalibbinloc\libfmt"
+
+        // SDL
+        $ImpLibExternal     "$gigalibbinloc\SDL2"
 
         // curl
-        // $ImpLibExternal      "libcurl"
-        // $ImpLibExternal      "$gigalibbinloc\curl"                   [$LINUX]
-        // $Lib                 "$gigalibbinloc\libbrotlicommon-static" [$LINUX]
-        // $Lib                 "$gigalibbinloc\libbrotlidec-static"    [$LINUX]
-        // $Lib                 "$gigalibbinloc\libbrotlienc-static"    [$LINUX]
-        // $Lib                 "$gigalibbinloc\libcrypto"              [$LINUX]
-        // $Lib                 "$gigalibbinloc\libnghttp2"             [$LINUX]
-        // $Lib                 "$gigalibbinloc\libssh2"                [$LINUX]
-        // $Lib                 "$gigalibbinloc\libssl"                 [$LINUX]
-        // $Lib                 "$gigalibbinloc\libz"                   [$LINUX]
-        // $Lib                 "$gigalibbinloc\libzstd"                [$LINUX]
+        // sdkCURL is set up to not compile on linux for now, not needed
+
+        // $ImpLibExternal      "$gigalibbinloc\libcurl"
+        // $Lib                 "$gigalibbinloc\libbrotlicommon-static"
+        // $Lib                 "$gigalibbinloc\libbrotlidec-static"
+        // $Lib                 "$gigalibbinloc\libbrotlienc-static"
+        // $Lib                 "$gigalibbinloc\libcrypto"
+        // $Lib                 "$gigalibbinloc\libnghttp2"
+        // $Lib                 "$gigalibbinloc\libssh2"
+        // $Lib                 "$gigalibbinloc\libssl"
+        // $Lib                 "$gigalibbinloc\libz"
+        // $Lib                 "$gigalibbinloc\libzstd"
     }
 }
