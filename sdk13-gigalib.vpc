@@ -254,6 +254,8 @@ $Project
         // Binary patching libraries
         $Lib                "$gigalibbinloc\libPolyHook_2"
         $Lib                "$gigalibbinloc\libZydis"
+        $Lib                "$gigalibbinloc\libasmjit"
+        $Lib                "$gigalibbinloc\libasmtk"
 
         // fmt
         $Lib                "$gigalibbinloc\libfmt"
