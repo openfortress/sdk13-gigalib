@@ -57,6 +57,7 @@ ConCommand sentry_test("sentry_test", CC_SentryTest, "\n", FCVAR_NONE );
 
 void sentry_callback(IConVar* var, const char* pOldValue, float flOldValue)
 {
+    #ifdef SENTRY_ASK_CONSENT
     int consent = ((ConVar*)(var))->GetInt();
 
     if (consent == 1)
@@ -71,6 +72,9 @@ void sentry_callback(IConVar* var, const char* pOldValue, float flOldValue)
     {
         sentry_user_consent_reset();
     }
+    #else
+    sentry_user_consent_give();
+    #endif
 
     engine->ExecuteClientCmd("host_writeconfig");
 }
@@ -714,7 +718,8 @@ void CSentry::SentryInit()
     gamePaths = new char[gamePathsSize + 2] {};
     memcpy( (void*)gamePaths, path_ss.str().c_str(), gamePathsSize );
 
-
+    
+#ifdef SENTRY_ASK_CONSENT
     // already asked
     if (cl_send_error_reports.GetInt() >= 0)
     {
@@ -791,6 +796,7 @@ void CSentry::SentryInit()
         cl_send_error_reports.SetValue(-1);
     }
 #endif
+#endif
 }
 
 void SetSteamID()
@@ -825,11 +831,13 @@ void SetSteamID()
 
 void SentryMsg(const char* logger, const char* text, bool forcesend /* = false */)
 {
+    #ifdef SENTRY_ASK_CONSENT
     if ( (!forcesend && cl_send_error_reports.GetInt() <= 0) || !(g_Sentry.didinit.load(std::memory_order_relaxed)) )
     {
         // Warning("NOT SENDING!\n");
         return;
     }
+    #endif
 
     std::thread sentry_msg_thread(_SentryMsgThreaded, logger, text, forcesend);
     sentry_msg_thread.detach();
@@ -858,11 +866,13 @@ void _SentryMsgThreaded(const char* logger, const char* text, bool forcesend /* 
 // context info? You need to read the docs: https://docs.sentry.io/platforms/native/usage/#manual-events
 void SentryEvent(const char* level, const char* logger, const char* message, sentry_value_t ctxinfo, bool forcesend /* = false */)
 {
+    #ifdef SENTRY_ASK_CONSENT
     if ( (!forcesend && cl_send_error_reports.GetInt() <= 0) || !(g_Sentry.didinit.load(std::memory_order_relaxed)) )
     {
         // Warning("NOT SENDING!\n");
         return;
     }
+    #endif
     std::thread sentry_event_thread(_SentryEventThreaded, level, logger, message, ctxinfo, forcesend);
     sentry_event_thread.detach();
 }
