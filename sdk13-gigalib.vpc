@@ -211,15 +211,15 @@ $Project
         }
         $Lib     "$gigalibbinloc\release\Zydis"
         {
-            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+            $Configuration "Debug" { $ExcludedFromBuild "Yes" }
         }
         $Lib     "$gigalibbinloc\release\asmjit"                     [$WIN64]
         {
-            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+            $Configuration "Debug" { $ExcludedFromBuild "Yes" }
         }
         $Lib     "$gigalibbinloc\release\asmtk"                      [$WIN64]
         {
-            $Configuration "Release" { $ExcludedFromBuild "Yes" }
+            $Configuration "Debug" { $ExcludedFromBuild "Yes" }
         }
 
         // fmt
