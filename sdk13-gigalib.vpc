@@ -46,12 +46,17 @@ $Configuration
         // $Create/UsePrecompiledHeader "Not Using Precompiled Headers"
     }
 
-    $Linker
+    $Linker [$WINDOWS]
     {
         $AdditionalDependencies             "$BASE wsock32.lib" [$WINDOWS]
         $AdditionalDependencies             "$BASE ws2_32.lib"  [$WINDOWS]
         $AdditionalDependencies             "$BASE wldap32.lib" [$WINDOWS]
         // $AdditionalDependencies          "$BASE msvcrtd.lib" [$WINDOWS]
+    }
+
+    $Linker [$LINUX]
+    {
+        $SystemLibraries				    "rt" [$LINUX64]
     }
 }
 
