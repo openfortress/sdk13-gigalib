@@ -59,7 +59,7 @@ CBinPatch g_EnginePatches[] =
         // 55 8b ec 81 ec 1c 01 00 00 53 56 69 75 08 2c 01 00 00 8b 9d 57
         // Unique string: "Download file '%s' %s"
         // 
-        // name:gigalib-patch-CNetChan::HandleUpload-win32
+        // name:gigalib-patch-CNetChan::HandleUpload-win64
         // Signature for FUN_1801cc830 (64bit)
         // 48 89 5c 24 08 48 89 74 24 18 57 48 81 ec 50 01 00 00 48 63 c2 48 8d 99 68 01 00 00 48 69 d0 38 01 00 00 48 8b f1 48 03 da 48 83 bb 10 01 00 00 00 0f 84 ?? ?? ?? ?? 
         //
@@ -397,7 +397,7 @@ CBinPatch g_EnginePatches[] =
         //
         // 
         // --- 64bit ---
-        // name:gigalib-patch-CNetChan::CreateFragmentsFromFile-linux32
+        // name:gigalib-patch-CNetChan::CreateFragmentsFromFile-linux64
         // Signature for FUN_00646590:
         // 55 48 89 e5 40 57 40 56 40 55 48 89 fd 40 54 48 89 f4 53 89 cb 48 83 ec 28 48 8d 3d ?? ?? ?? ??
         // 
