@@ -172,7 +172,7 @@ CBinPatch g_EnginePatches[] =
         */
         // name:gigalib-patch-R_DrawSkybox-win32
         // Signature for sub_100ECF90 (branch previous2021: 0x10106EA0)
-        // 55 8B EC 81 EC 54 02 00 00 8B 0D ? ? ? ?
+        // 55 8B EC 81 EC 54 02 00 00 8B 0D ?? ?? ?? ??
         // Uniqueish string: R_DrawSkybox
         // 
         // --- 64bit ---
@@ -328,7 +328,7 @@ CBinPatch g_EnginePatches[] =
         // rootlod
         // name:gigalib-patch-rootlod-win32
         // Signature for sub_100F12B0: (branch previous2021: 0x101083f0)
-        // 6A 02 6A 00 68 ? ? ? ? E8 ? ? ? ? 83 C4 0C C3
+        // 6A 02 6A 00 68 ?? ?? ?? ?? E8 ?? ?? ?? ?? 83 C4 0C C3
         {
             AY_OBFUSCATE("\x6A\x02\x6A\x00\x68\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x83\xC4\x0C\xC3"),
             18,

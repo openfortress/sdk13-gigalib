@@ -813,7 +813,7 @@ void CClientState__FullConnect_Init()
     #else
         // name:gigalib-detour-CClientState::FullConnect-win32
         // Signature for FUN_100b6d20 (branch previous2021: sub_100D0450)
-        // 55 8B EC 53 8B 5D 08 56 57 53 8B F9 E8 ? ? ? ? 8B 4F 10
+        // 55 8B EC 53 8B 5D 08 56 57 53 8B F9 E8 ?? ?? ?? ?? 8B 4F 10
         CClientState__FullConnect->patternSize   = 20;
         CClientState__FullConnect->pattern       = "\x55\x8B\xEC\x53\x8B\x5D\x08\x56\x57\x53\x8B\xF9\xE8\x2A\x2A\x2A\x2A\x8B\x4F\x10";
     #endif
@@ -827,7 +827,7 @@ void CClientState__FullConnect_Init()
     #else
         // name:gigalib-detour-CClientState::FullConnect-linux32
         // Signature for _ZN16CBaseClientState11FullConnectER8netadr_s:
-        // 55 89 E5 57 56 53 83 EC 28 8B 5D 08 68 ? ? ? ?
+        // 55 89 E5 57 56 53 83 EC 28 8B 5D 08 68 ?? ?? ?? ??
         // \x55\x89\xE5\x57\x56\x53\x83\xEC\x28\x8B\x5D\x08\x68\x2A\x2A\x2A\x2A
         CClientState__FullConnect->patternSize   = 17;
         CClientState__FullConnect->pattern       = "\x55\x89\xE5\x57\x56\x53\x83\xEC\x28\x8B\x5D\x08\x68\x2A\x2A\x2A\x2A";
