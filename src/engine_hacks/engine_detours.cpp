@@ -364,12 +364,14 @@ void CNetChan__ProcessPacket_Init()
         // CNetChan__ProcessPacket->patternSize    = 12;
         // CNetChan__ProcessPacket->pattern        = "\x55\x8B\xEC\x51\x53\x56\x8B\xF1\x57\x8B\x7D\x08";
 
-        #ifdef _WIN64
+        #ifdef PLATFORM_64BITS
+        // name:gigalib-detour-CNetChan::ProcessPacket-win64
         // Signature for UndefinedFunction_1801d0330 (referenced by FUN_1801d07c0)
         // 40 88 44 24 18 48 89 54 24 10 53 56 40 55 40 56 40 57 48 83 ec 70 48 8d 7a 20 40 33 ed 48 8b f2 48 8b f1
         CNetChan__ProcessPacket->patternSize = 35;
         CNetChan__ProcessPacket->pattern = "\x40\x88\x44\x24\x18\x48\x89\x54\x24\x10\x53\x56\x40\x55\x40\x56\x40\x57\x48\x83\xEC\x70\x48\x8D\x7A\x20\x40\x33\xED\x48\x8B\xF2\x48\x8B\xF1";
         #else
+        // name:gigalib-detour-CNetChan::ProcessPacket-win32
         // Signature for FUN_101a7880 (referenced by FUN_101a7bd0)
         // 55 8B EC 83 EC 08 53 56 8B 75 08 83 7E 24 00 8D 5E 1C 57 8B F9
         CNetChan__ProcessPacket->patternSize = 21;
@@ -377,12 +379,14 @@ void CNetChan__ProcessPacket_Init()
         #endif
 
     #else
-        #ifdef _WIN64
+        #ifdef PLATFORM_64BITS
+        // name:gigalib-detour-CNetChan::ProcessPacket-linux64
         // Signature for FUN_0064e440:
         // 55 31 c0 48 89 e5 40 57 40 89 d7 40 56 40 55 40 54 48 89 fc 53 48 89 f3 48 83 ec 68 48 8b 2d ?? ?? ?? ??
         CNetChan__ProcessPacket->patternSize = 35;
         CNetChan__ProcessPacket->pattern = "\x55\x31\xC0\x48\x89\xE5\x40\x57\x40\x89\xD7\x40\x56\x40\x55\x40\x54\x48\x89\xFC\x53\x48\x89\xF3\x48\x83\xEC\x68\x48\x8B\x2D\x2A\x2A\x2A\x2A";
         #else
+        // name:gigalib-detour-CNetChan::ProcessPacket-linux32
         // Signature for _ZN8CNetChan13ProcessPacketEP11netpacket_sb:
         // 55 66 0F EF C0 89 E5 57 56 53 83 EC 5C 8B 45 10
         // \x55\x66\x0F\xEF\xC0\x89\xE5\x57\x56\x53\x83\xEC\x5C\x8B\x45\x10
@@ -455,12 +459,14 @@ void CBaseServer__RejectConnection_Init()
         sub_10155B50+9F   224 push    offset aSteamUseridSIs ; "STEAM UserID %s is banned" (unique)
         ...
     */
-#ifdef _WIN64
+#ifdef PLATFORM_64BITS
+    // name:gigalib-detour-CBaseServer::RejectConnection-win64
     // Signature for FUN_180150030:
     // 48 89 5c 24 08 48 89 6c 24 10 48 89 74 24 18 57 48 81 ec ?? ?? ?? ?? 48 8b f9 40 8b d8 48 8b f2 48 8b e9 40 b9 ?? ?? ?? ??
     CBaseServer__RejectConnection->patternSize = 41;
     CBaseServer__RejectConnection->pattern = "\x48\x89\x5C\x24\x08\x48\x89\x6C\x24\x10\x48\x89\x74\x24\x18\x57\x48\x81\xEC\x2A\x2A\x2A\x2A\x48\x8B\xF9\x40\x8B\xD8\x48\x8B\xF2\x48\x8B\xE9\x40\xB9\x2A\x2A\x2A\x2A";
 #else
+    // name:gigalib-detour-CBaseServer::RejectConnection-win32
     // Signature for sub_1015DFA0:
     // 55 8B EC 81 EC 04 05 00 00 57 6A FF 68 ec 04 00 00
     CBaseServer__RejectConnection->patternSize  = 17;
@@ -490,12 +496,14 @@ void CBaseServer__RejectConnection_Init()
         sub_56ED90+B7   25C mov     dword ptr [esp], offset aSteamUseridSIs ; "STEAM UserID %s is banned" (unique)
         ...
     */
-#ifdef _WIN64
+#ifdef PLATFORM_64BITS
+    // name:gigalib-detour-CBaseServer::RejectConnection-linux64
     // Signature for FUN_005b85e0:
     // 55 48 89 e5 41 57 41 89 d7 ba ec 04 00 00
     CBaseServer__RejectConnection->patternSize = 14;
     CBaseServer__RejectConnection->pattern = "\x55\x48\x89\xE5\x41\x57\x41\x89\xD7\xBA\xEC\x04\x00\x00";
 #else
+    // name:gigalib-detour-CBaseServer::RejectConnection-linux32
     // Signature for _ZN11CBaseServer16RejectConnectionERK8netadr_siPKc:
     // 55 89 E5 57 56 8D BD E4 FA FF FF
     CBaseServer__RejectConnection->patternSize  = 11;
@@ -638,30 +646,34 @@ void CBaseServer__ConnectClient_Init()
     CBaseServer__ConnectClient = new sdkdetour{};
     // unique string: "CBaseServer::ConnectClient"
     #ifdef PLATFORM_WINDOWS
-    #ifdef _WIN64
+    #ifdef PLATFORM_64BITS
+        // name:gigalib-detour-CBaseServer::ConnectClient-win64
         // Signature for FUN_18014dc00 
         // 48 89 5c 24 10 40 89 4c 24 20 55 56 57 40 54 40 55 40 56 40 57 48 81 ec ?? ?? ?? ??
         CBaseServer__ConnectClient->patternSize = 28;
         CBaseServer__ConnectClient->pattern = "\x48\x89\x5C\x24\x10\x40\x89\x4C\x24\x20\x55\x56\x57\x40\x54\x40\x55\x40\x56\x40\x57\x48\x81\xEC\x2A\x2A\x2A\x2A";
     #else
-    // Signature for sub_1015BB80 (branch previous2021)
+        // Signature for sub_1015BB80 (branch previous2021)
         // 55 8B EC 81 EC 04 05 00 00 56 68 ?? ??? ?? ??
         // 55 8b ec 81 ec 24 05 00 00 53 56 57 68 ?? ?? ?? ??
         // CBaseServer__ConnectClient->patternSize  = 15;
         // CBaseServer__ConnectClient->pattern      = "\x55\x8B\xEC\x81\xEC\x04\x05\x00\x00\x56\x68\x2A\x2A\x2A\x2A";
 
+        // name:gigalib-detour-CBaseServer::ConnectClient-win32
         // Signature for FUN_1013dc60 
         // 55 8b ec 81 ec 24 05 00 00 53 56 57 68 ?? ?? ?? ??
         CBaseServer__ConnectClient->patternSize = 17;
         CBaseServer__ConnectClient->pattern = "\x55\x8B\xEC\x81\xEC\x24\x05\x00\x00\x53\x56\x57\x68\x2A\x2A\x2A\x2A";
     #endif
     #else
-    #ifdef _WIN64
+    #ifdef PLATFORM_64BITS
+        // name:gigalib-detour-CBaseServer::ConnectClient-linux64
         // Signature for FUN_005bafe0:
         // 55 31 c0 48 89 e5 41 57 41 89 cf 41 56 41 89 d6 41 55 49 89 fd 41 54 48 8d 3d ?? ?? ?? ??
         CBaseServer__ConnectClient->patternSize = 30;
         CBaseServer__ConnectClient->pattern = "\x55\x31\xC0\x48\x89\xE5\x41\x57\x41\x89\xCF\x41\x56\x41\x89\xD6\x41\x55\x49\x89\xFD\x41\x54\x48\x8D\x3D\x2A\x2A\x2A\x2A";
     #else
+        // name:gigalib-detour-CBaseServer::ConnectClient-linux32
         // Signature for sub_372660:
         // 55 89 E5 57 56 53 81 EC 68 05 00 00
         CBaseServer__ConnectClient->patternSize  = 12;
@@ -792,24 +804,28 @@ void CClientState__FullConnect_Init()
 
     // unique string: "Connected to %s\n"
     #ifdef PLATFORM_WINDOWS
-    #ifdef _WIN64
+    #ifdef PLATFORM_64BITS
+        // name:gigalib-detour-CClientState::FullConnect-win64
         // Signature for   LAB_1800a29c0:
         // 48 89 5c 24 08 48 89 74 24 10 57 48 83 ec 20 48 8b f2 48 8b f9 e8 ?? ?? ?? ?? 48 8b 4f 20 48 8b 15 ?? ?? ?? ??
         CClientState__FullConnect->patternSize = 37;
         CClientState__FullConnect->pattern = "\x48\x89\x5C\x24\x08\x48\x89\x74\x24\x10\x57\x48\x83\xEC\x20\x48\x8B\xF2\x48\x8B\xF9\xE8\x2A\x2A\x2A\x2A\x48\x8B\x4F\x20\x48\x8B\x15\x2A\x2A\x2A\x2A";
     #else
+        // name:gigalib-detour-CClientState::FullConnect-win32
         // Signature for FUN_100b6d20 (branch previous2021: sub_100D0450)
         // 55 8B EC 53 8B 5D 08 56 57 53 8B F9 E8 ? ? ? ? 8B 4F 10
         CClientState__FullConnect->patternSize   = 20;
         CClientState__FullConnect->pattern       = "\x55\x8B\xEC\x53\x8B\x5D\x08\x56\x57\x53\x8B\xF9\xE8\x2A\x2A\x2A\x2A\x8B\x4F\x10";
     #endif
     #else
-    #ifdef _WIN64
+    #ifdef PLATFORM_64BITS
+        // name:gigalib-detour-CClientState::FullConnect-linux64
         // Signature for FUN_004eef50:
         // 55 48 89 e5 41 56 41 55 41 54 49 89 f4 53 48 89 fb e8 ?? ?? ?? ??
         CClientState__FullConnect->patternSize = 22;
         CClientState__FullConnect->pattern = "\x55\x48\x89\xE5\x41\x56\x41\x55\x41\x54\x49\x89\xF4\x53\x48\x89\xFB\xE8\x2A\x2A\x2A\x2A";
     #else
+        // name:gigalib-detour-CClientState::FullConnect-linux32
         // Signature for _ZN16CBaseClientState11FullConnectER8netadr_s:
         // 55 89 E5 57 56 53 83 EC 28 8B 5D 08 68 ? ? ? ?
         // \x55\x89\xE5\x57\x56\x53\x83\xEC\x28\x8B\x5D\x08\x68\x2A\x2A\x2A\x2A
@@ -869,24 +885,28 @@ void CNetChan__Shutdown_Init()
 
     // Unique string: "NetChannel removed.", which calls Shutdown immediately after
     #ifdef PLATFORM_WINDOWS
-    #ifdef _WIN64
+    #ifdef PLATFORM_64BITS
+        // name:gigalib-detour-CNetChan::Shutdown-win64
         // Signature for sub_101CCA10:
         // 55 8B EC 83 EC 10 56 8B F1 83 BE 8C 00 00 00 00
         CNetChan__Shutdown->patternSize = 29;
         CNetChan__Shutdown->pattern = "\x48\x89\x5C\x24\x20\x55\x48\x83\xEC\x20\x83\xB9\xB8\x00\x00\x00\x00\x48\x8B\xEA\x48\x8B\xD9\x0F\x8C\x2A\x2A\x2A\x2A";
     #else
+        // name:gigalib-detour-CNetChan::Shutdown-win32
         // Signature for sub_101CCA10:
         // 55 8B EC 83 EC 10 56 8B F1 83 BE 8C 00 00 00 00
         CNetChan__Shutdown->patternSize = 16;
         CNetChan__Shutdown->pattern     = "\x55\x8B\xEC\x83\xEC\x10\x56\x8B\xF1\x83\xBE\x8C\x00\x00\x00\x00";
     #endif
     #else
-    #ifdef _WIN64
+    #ifdef PLATFORM_64BITS
+        // name:gigalib-detour-CNetChan::Shutdown-linux64
         // Signature for FUN_0064c9c0:
         // 44 8b 87 ?? ?? ?? ?? 45 85 c0 0f 88 ?? ?? ?? ?? 55 48 89 e5 41 56 41 55 49 89 f5 41 54 49 89 fc 53 48 8b ?? ff ?? ?? ?? ?? ??
         CNetChan__Shutdown->patternSize = 42;
         CNetChan__Shutdown->pattern = "\x44\x8B\x87\x2A\x2A\x2A\x2A\x45\x85\xC0\x0F\x88\x2A\x2A\x2A\x2A\x55\x48\x89\xE5\x41\x56\x41\x55\x49\x89\xF5\x41\x54\x49\x89\xFC\x53\x48\x8B\x2A\xFF\x2A\x2A\x2A\x2A\x2A";
     #else
+        // name:gigalib-detour-CNetChan::Shutdown-linux32
         // Signature for _ZN8CNetChan8ShutdownEPKc:
         // 55 89 E5 57 56 53 83 EC 1C 8B 5D 08 8B 75 0C 8B 83 8C 00 00 00
         // \x55\x89\xE5\x57\x56\x53\x83\xEC\x1C\x8B\x5D\x08\x8B\x75\x0C\x8B\x83\x8C\x00\x00\x00

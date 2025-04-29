@@ -54,15 +54,17 @@ CBinPatch g_EnginePatches[] =
         */
         // --- PART ONE ---
         //
+        // name:gigalib-patch-CNetChan::HandleUpload-win32
         // Signature for FUN_101a44e0 (32bit)
         // 55 8b ec 81 ec 1c 01 00 00 53 56 69 75 08 2c 01 00 00 8b 9d 57
         // Unique string: "Download file '%s' %s"
         // 
+        // name:gigalib-patch-CNetChan::HandleUpload-win32
         // Signature for FUN_1801cc830 (64bit)
         // 48 89 5c 24 08 48 89 74 24 18 57 48 81 ec 50 01 00 00 48 63 c2 48 8d 99 68 01 00 00 48 69 d0 38 01 00 00 48 8b f1 48 03 da 48 83 bb 10 01 00 00 00 0f 84 ?? ?? ?? ?? 
         //
         // CNetChan::HandleUpload(char *, int)
-#if _WIN64
+#if PLATFORM_64BITS
         {
             AY_OBFUSCATE("\x48\x89\x5C\x24\x08\x48\x89\x74\x24\x18\x57\x48\x81\xEC\x50\x01\x00\x00\x48\x63\xC2\x48\x8D\x99\x68\x01\x00\x00\x48\x69\xD0\x38\x01\x00\x00\x48\x8B\xF1\x48\x03\xDA\x48\x83\xBB\x10\x01\x00\x00\x00\x0F\x84\x2A\x2A\x2A\x2A"),
             55,
@@ -85,13 +87,14 @@ CBinPatch g_EnginePatches[] =
         // Unique string: "CreateFragmentsFromFile: '%s' doesn't"
         //
         // CNetChan::CreateFragmentsFromFile(char const*, int, unsigned int)
-#if _WIN64
+#if PLATFORM_64BITS
         // offsets for the ConMsgs in this func are
         // 0xBA
         // 0x100
         // 0x125
         // 0x1A0
         // 
+        // name:gigalib-patch-CNetChan::CreateFragmentsFromFile-win64
         // Signature for FUN_1801cd520
         // 48 89 5c 24 08 48 89 6c 24 18 56 57 41 54 41 56 41 57 48 83 ec 20 4d 63 f8 45 8b f1 48 8b fa 48 8b e9 48 85 d2 0f 84 ?? ?? ?? ?? 80 3a 00 0f 84 ?? ?? ?? ?? 45 33 e4 4c 8d 99 28 01 00 00 41 8b f4
         {
@@ -129,6 +132,7 @@ CBinPatch g_EnginePatches[] =
         // 0x12D
         // 0x1A6
         //
+        // name:gigalib-patch-CNetChan::CreateFragmentsFromFile-win32
         // Signature for FUN_101a4f90
         // 55 8b ec 83 ec 0c 53 8b 5d 08 8b d1 89 55 f4 56 57
         {
@@ -166,11 +170,13 @@ CBinPatch g_EnginePatches[] =
             Patch:
             Prevent the culling of skyboxes at high FOVs
         */
+        // name:gigalib-patch-R_DrawSkybox-win32
         // Signature for sub_100ECF90 (branch previous2021: 0x10106EA0)
         // 55 8B EC 81 EC 54 02 00 00 8B 0D ? ? ? ?
         // Uniqueish string: R_DrawSkybox
         // 
         // --- 64bit ---
+        // name:gigalib-patch-R_DrawSkybox-win64
         // Signature for FUN_1800e92d0
         // 48 8b c4 55 53 41 54 41 55 48 8d a8 f8 fc ff ff 48 81 ec e8 03 00 00 33 db
         // 
@@ -180,7 +186,7 @@ CBinPatch g_EnginePatches[] =
         // if ( (((v6 * *&dword_103C0274) + (v7 * *&dword_103C0278)) + (v8 * *&dword_103C027C)) >= -1.0 )
         //
         // R_DrawSkyBox
-#if _WIN64
+#if PLATFORM_64BITS
         {
             AY_OBFUSCATE("\x48\x8B\xC4\x55\x53\x41\x54\x41\x55\x48\x8D\xA8\xF8\xFC\xFF\xFF\x48\x81\xEC\xE8\x03\x00\x00\x33\xDB"),
             25,
@@ -201,14 +207,16 @@ CBinPatch g_EnginePatches[] =
         // Multiple patches are required since the new engine is comparing a pointer (current value?)
         // to the raw, non-negative values. so we just replace the values that it's comparing the pointer to.
         // 
+        // name:gigalib-patch-Unclamp-mat_picmip-win32
         // Signature for sub_10184f30 (branch previous2021: 101A4B70)
         // 55 8b ec 83 ec 20 8b ?? ?? ?? ?? ?? 33 d2 53 33 db
         // \x55\x8B\xEC\x83\xEC\x20\x8B\x2A\x2A\x2A\x2A\x2A\x33\xD2\x53\x33\xDB
         //
+        // name:gigalib-patch-Unclamp-mat_picmip-win64
         // Signature for FUN_1801A5C80 (64bit)
         // 4c 8b dc 49 89 5b 18 49 89 6b 20 56 57 41 54 41 56 41 57 48 83 ec 50 48 8b 05 ?? ?? ?? ?? 4c 8d 25 ?? ?? ?? ??
         // \x4C\x8B\xDC\x49\x89\x5B\x18\x49\x89\x6B\x20\x56\x57\x41\x54\x41\x56\x41\x57\x48\x83\xEC\x50\x48\x8B\x05\x2A\x2A\x2A\x2A\x4C\x8D\x25\x2A\x2A\x2A\x2A
-#if _WIN64
+#if PLATFORM_64BITS
         {
             AY_OBFUSCATE("\x4C\x8B\xDC\x49\x89\x5B\x18\x49\x89\x6B\x20\x56\x57\x41\x54\x41\x56\x41\x57\x48\x83\xEC\x50\x48\x8B\x05\x2A\x2A\x2A\x2A\x4C\x8D\x25\x2A\x2A\x2A\x2A"),
             37,
@@ -243,14 +251,16 @@ CBinPatch g_EnginePatches[] =
         // search for "Root LOD" then the last parameter in the first function
         // that was called, would be the function that we are looking for.
         // 
+        // name:gigalib-patch-rootlod-callback-win32
         // Signature for sub_100f3ea0: (branch previous2021: 0x1010dcc0)
         // 55 8B EC 83 EC 08 6A 02
         // \x55\x8B\xEC\x83\xEC\x08\x6A\x02
         //
+        // name:gigalib-patch-rootlod-callback-win64
         // Signature for FUN_1800F1210 (64bits)
         // 48 89 5c 24 10 57 48 83 ec 30 48 8b da 48 8b f9 33 d2
         // \x48\x89\x5C\x24\x10\x57\x48\x83\xEC\x30\x48\x8B\xDA\x48\x8B\xF9\x33\xD2
-#if _WIN64
+#if PLATFORM_64BITS
         {
             AY_OBFUSCATE("\x48\x89\x5C\x24\x10\x57\x48\x83\xEC\x30\x48\x8B\xDA\x48\x8B\xF9\x33\xD2"),
             18,
@@ -314,8 +324,9 @@ CBinPatch g_EnginePatches[] =
        1800f1243 44 8b 05        MOV        R8D,dword ptr [DAT_18075008c]
                  42 ee 65 00
 */
-#if !_WIN64
+#if !PLATFORM_64BITS
         // rootlod
+        // name:gigalib-patch-rootlod-win32
         // Signature for sub_100F12B0: (branch previous2021: 0x101083f0)
         // 6A 02 6A 00 68 ? ? ? ? E8 ? ? ? ? 83 C4 0C C3
         {
@@ -327,6 +338,7 @@ CBinPatch g_EnginePatches[] =
         },
 
         // lod
+        // name:gigalib-patch-lod-win32
         // Signature for sub_100F1290: (previous2021: 100F1E40)
         // 6a 02 6a ff 68 ?? ?? ?? ?? e8 ?? ?? ?? ?? 83 c4 0c c3
         // \x6A\x02\x6A\xFF\x68\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x83\xC4\x0C\xC3
@@ -357,8 +369,9 @@ CBinPatch g_EnginePatches[] =
         // Unique string: "Download file '%s' %s"
         //
         // CNetChan::HandleUpload(char *, int)
-#ifdef _WIN64
+#ifdef PLATFORM_64BITS
         {
+            // name:gigalib-patch-CNetChan::HandleUpload-linux64
             // Signature for FUN_0064b3b0:
             // 55 48 89 e5 40 57 40 56 40 55 40 54 48 89 f4 53 48 89 fb 48 81 ec 18 01 00 00 0f b6 05 ?? ?? ?? ?? 84 c0 74 ??
             AY_OBFUSCATE("\x55\x89\xE5\x57\x56\x53\x81\xEC\x1C\x01\x00\x00\x8B\x75\x08\x0F\xB6\x05\x2A\x2A\x2A\x2A\x84\xC0"),
@@ -368,6 +381,7 @@ CBinPatch g_EnginePatches[] =
             AY_OBFUSCATE("\x90\x90\x90\x90\x90") // CALL -> NOP NOP NOP NOP NOP
         },
 #else
+        // name:gigalib-patch-CNetChan::HandleUpload-linux32
         // Signature for FUN_003cc630:
         // 55 89 E5 57 56 53 81 EC 1C 01 00 00 8B 75 08 0F B6 05 ?? ?? ?? ?? 84 C0
         {
@@ -383,6 +397,7 @@ CBinPatch g_EnginePatches[] =
         //
         // 
         // --- 64bit ---
+        // name:gigalib-patch-CNetChan::CreateFragmentsFromFile-linux32
         // Signature for FUN_00646590:
         // 55 48 89 e5 40 57 40 56 40 55 48 89 fd 40 54 48 89 f4 53 89 cb 48 83 ec 28 48 8d 3d ?? ?? ?? ??
         // 
@@ -394,6 +409,7 @@ CBinPatch g_EnginePatches[] =
         // 
         // 
         // --- 32bit ---
+        // name:gigalib-patch-CNetChan::CreateFragmentsFromFile-linux32
         // Signature for FUN_003c7e10:
         // 55 89 E5 57 89 CF 56 53 89 D3 83 EC 30 89 45 D4 A1 ?? ?? ?? ?? 8D 50 04 8B 40 04
         // \x55\x89\xE5\x57\x89\xCF\x56\x53\x89\xD3\x83\xEC\x30\x89\x45\xD4\xA1\x2A\x2A\x2A\x2A\x8D\x50\x04\x8B\x40\x04
@@ -407,7 +423,7 @@ CBinPatch g_EnginePatches[] =
         // Unique string: "CreateFragmentsFromFile: '%s' doesn't"
         //
         // CNetChan::CreateFragmentsFromFile(char const*, int, unsigned int)
-        #ifdef _WIN64
+        #ifdef PLATFORM_64BITS
         {
             AY_OBFUSCATE("\x55\x48\x89\xE5\x40\x57\x40\x56\x40\x55\x48\x89\xFD\x40\x54\x48\x89\xF4\x53\x89\xCB\x48\x83\xEC\x28\x48\x8D\x3D\x2A\x2A\x2A\x2A"),
             32, // 15,
@@ -473,9 +489,11 @@ CBinPatch g_EnginePatches[] =
             Prevent the culling of skyboxes at high FOVs
         */
         //
+        // name:gigalib-patch-R_DrawSkybox-linux64
         // Signature for FUN_005471c0: (64bit)
         // 55 31 c0 48 89 e5 40 57 40 56 40 55 40 54 40 89 fc 53 48 81 ec ?? ?? ?? ?? 48 8b 1d ?? ?? ?? ?? f3 0f 11 85 7c fc ff ff 48 c7 85 80 fc ff ff 00 00 00 00
         //
+        // name:gigalib-patch-R_DrawSkybox-linux32
         // Signature for FUN_002d4c10: (32bit)
         // 55 66 0F EF C0 89 E5 57 56 53 81 EC 8C 02 00 00 A1 ?? ?? ?? ?? C7 85 80 FD FF FF 00 00 00 00
         // 
@@ -521,7 +539,7 @@ CBinPatch g_EnginePatches[] =
         // 100ed20c 0f 2f c8        COMISS   XMM1,XMM0
         // 100ed20f 0f 87 51        JA       LAB_100ed666
         //          04 00 00
-        #ifdef _WIN64
+        #ifdef PLATFORM_64BITS
         {
             AY_OBFUSCATE("\x55\x31\xC0\x48\x89\xE5\x40\x57\x40\x56\x40\x55\x40\x54\x40\x89\xFC\x53\x48\x81\xEC\x2A\x2A\x2A\x2A\x48\x8B\x1D\x2A\x2A\x2A\x2A\xF3\x0F\x11\x85\x7C\xFC\xFF\xFF\x48\xC7\x85\x80\xFC\xFF\xFF\x00\x00\x00\x00"),
             51,
