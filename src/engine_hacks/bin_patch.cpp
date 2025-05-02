@@ -778,7 +778,7 @@ CBinPatch:: CBinPatch(char* signature, size_t sigsize, size_t offset, bool immed
             (sigsize * 2)
         );
 
-        Warning("patchlen %s = %i / %i \n", hexstr, sizeof(bytes), strlen(bytes));
+        Warning("patchlen %s = %lu / %lu \n", hexstr, sizeof(bytes), strlen(bytes));
     #endif
 }
 #endif
