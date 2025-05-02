@@ -56,7 +56,7 @@ CBinPatch g_EnginePatches[] =
         //
         // name:gigalib-patch-CNetChan::HandleUpload-win32
         // Signature for FUN_101a44e0 (32bit)
-        // 55 8b ec 81 ec 1c 01 00 00 53 56 69 75 08 2c 01 00 00 8b 9d 57
+        // 55 8b ec 81 ec 1c 01 00 00 53 56 69 75 08 2c 01 00 00 8b d9 57 81 c6 28 01 00 00 03 f3 83 be 08 01 00 00 00 0f 84 ?? ?? ?? ??
         // Unique string: "Download file '%s' %s"
         // 
         // name:gigalib-patch-CNetChan::HandleUpload-win64
@@ -74,9 +74,8 @@ CBinPatch g_EnginePatches[] =
         },
 #else
         {
-            AY_OBFUSCATE("\x55\x8b\xEC\x81\xEC\x1C\x01\x00\x00\x53\x56\x69\x75\x08\x2C\x01\x00\x00\x8B\xD9\x57"),
-            // AY_OBFUSCATE("\x55\x8B\xEC\xA1\x2A\x2A\x2A\x2A\x81\xEC\x04\x01\x00\x00\xA8\x01"),
-            21,
+            AY_OBFUSCATE("\x55\x8B\xEC\x81\xEC\x1C\x01\x00\x00\x53\x56\x69\x75\x08\x2C\x01\x00\x00\x8B\xD9\x57\x81\xC6\x28\x01\x00\x00\x03\xF3\x83\xBE\x08\x01\x00\x00\x00\x0F\x84\x2A\x2A\x2A\x2A"),
+            42,
             0x303, // 0x167,
             PATCH_IMMEDIATE,
             AY_OBFUSCATE("\x90\x90\x90\x90\x90\x90") // CALL -> NOP NOP NOP NOP NOP NOP
@@ -171,8 +170,8 @@ CBinPatch g_EnginePatches[] =
             Prevent the culling of skyboxes at high FOVs
         */
         // name:gigalib-patch-R_DrawSkybox-win32
-        // Signature for sub_100ECF90 (branch previous2021: 0x10106EA0)
-        // 55 8B EC 81 EC 54 02 00 00 8B 0D ?? ?? ?? ??
+        // Signature for FUN_100ECF90
+        // 55 8b ec 81 ec 58 02 00 00 8b 0d ?? ?? ?? ?? 33 d2 89 55 e4 89 55 e8 89 55 ec 8b 01 89 55 f0 85 c0 74 40 ff 75 0c 8d 4d e4 68 ?? ?? ?? ?? 68 ?? ?? ?? ?? 68 ?? ?? ?? ??
         // Uniqueish string: R_DrawSkybox
         // 
         // --- 64bit ---
@@ -196,8 +195,8 @@ CBinPatch g_EnginePatches[] =
         },
 #else
         {
-            AY_OBFUSCATE("\x55\x8B\xEC\x81\xEC\x58\x02\x00\x00\x8B\x0D\x2A\x2A\x2A\x2A\x33\xD2"),
-            17,
+            AY_OBFUSCATE("\x55\x8B\xEC\x81\xEC\x58\x02\x00\x00\x8B\x0D\x2A\x2A\x2A\x2A\x33\xD2\x89\x55\xE4\x89\x55\xE8\x89\x55\xEC\x8B\x01\x89\x55\xF0\x85\xC0\x74\x40\xFF\x75\x0C\x8D\x4D\xE4\x68\x2A\x2A\x2A\x2A\x68\x2A\x2A\x2A\x2A\x68\x2A\x2A\x2A\x2A"),
+            56,
             0x278,
             PATCH_REFERENCE, // we are changing the value of a float**
             -1.0f
