@@ -694,7 +694,7 @@ bool CBinPatch::ApplyPatch(modbin* mbin)
         else
         {
             #ifdef dbging
-                Warning("CBinPatch::ApplyPatch -> Couldn't override mem protection for pattern %s, size %i, offs %i\n", m_pSignature, m_iSize, m_iOffset);
+                Warning("CBinPatch::ApplyPatch -> Couldn't override mem protection for pattern %s, size %lu, offs %lu\n", m_pSignature, m_iSize, m_iOffset);
             #endif
 
             return false;
@@ -704,7 +704,7 @@ bool CBinPatch::ApplyPatch(modbin* mbin)
     {
         // Couldn't find sig
         #ifdef dbging
-            Warning("CBinPatch::ApplyPatch -> Couldn't find sig for pattern %s, size %i, offs %i\n", m_pSignature, m_iSize, m_iOffset);
+            Warning("CBinPatch::ApplyPatch -> Couldn't find sig for pattern %s, size %lu, offs %lu\n", m_pSignature, m_iSize, m_iOffset);
         #endif
         return false;
     }
