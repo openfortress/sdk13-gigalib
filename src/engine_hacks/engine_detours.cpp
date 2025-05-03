@@ -887,8 +887,8 @@ void CNetChan__Shutdown_Init()
     #ifdef PLATFORM_WINDOWS
     #ifdef PLATFORM_64BITS
         // name:gigalib-detour-CNetChan::Shutdown-win64
-        // Signature for sub_101CCA10:
-        // 55 8B EC 83 EC 10 56 8B F1 83 BE 8C 00 00 00 00
+        // Signature for FUN_1801d34c0:
+        // 48 89 5C 24 20 55 48 83 EC 20 83 B9 B8 00 00 00 00 48 8B EA 48 8B D9 0F 8C ?? ?? ?? ??
         CNetChan__Shutdown->patternSize = 29;
         CNetChan__Shutdown->pattern = "\x48\x89\x5C\x24\x20\x55\x48\x83\xEC\x20\x83\xB9\xB8\x00\x00\x00\x00\x48\x8B\xEA\x48\x8B\xD9\x0F\x8C\x2A\x2A\x2A\x2A";
     #else
