@@ -382,9 +382,9 @@ void CNetChan__ProcessPacket_Init()
         #ifdef PLATFORM_64BITS
         // name:gigalib-detour-CNetChan::ProcessPacket-linux64
         // Signature for FUN_0064e440:
-        // 55 31 c0 48 89 e5 40 57 40 89 d7 40 56 40 55 40 54 48 89 fc 53 48 89 f3 48 83 ec 68 48 8b 2d ?? ?? ?? ??
-        CNetChan__ProcessPacket->patternSize = 35;
-        CNetChan__ProcessPacket->pattern = "\x55\x31\xC0\x48\x89\xE5\x40\x57\x40\x89\xD7\x40\x56\x40\x55\x40\x54\x48\x89\xFC\x53\x48\x89\xF3\x48\x83\xEC\x68\x48\x8B\x2D\x2A\x2A\x2A\x2A";
+        // 55 31 c0 48 89 e5 41 57 41 89 d7 41 56 41 55 41 54 49 89 fc 53 48 89 f3 48 83 ec 68 4c 8b 2d ?? ?? ?? ?? 48 c7 45 a8 00 00 00 00 49 8b 7d 18 48 85 ff
+        CNetChan__ProcessPacket->patternSize = 50;
+        CNetChan__ProcessPacket->pattern = "\x55\x31\xC0\x48\x89\xE5\x41\x57\x41\x89\xD7\x41\x56\x41\x55\x41\x54\x49\x89\xFC\x53\x48\x89\xF3\x48\x83\xEC\x68\x4C\x8B\x2D\x2A\x2A\x2A\x2A\x48\xC7\x45\xA8\x00\x00\x00\x00\x49\x8B\x7D\x18\x48\x85\xFF";
         #else
         // name:gigalib-detour-CNetChan::ProcessPacket-linux32
         // Signature for _ZN8CNetChan13ProcessPacketEP11netpacket_sb:
@@ -674,10 +674,10 @@ void CBaseServer__ConnectClient_Init()
         CBaseServer__ConnectClient->pattern = "\x55\x31\xC0\x48\x89\xE5\x41\x57\x41\x89\xCF\x41\x56\x41\x89\xD6\x41\x55\x49\x89\xFD\x41\x54\x48\x8D\x3D\x2A\x2A\x2A\x2A";
     #else
         // name:gigalib-detour-CBaseServer::ConnectClient-linux32
-        // Signature for sub_372660:
-        // 55 89 E5 57 56 53 81 EC 68 05 00 00
-        CBaseServer__ConnectClient->patternSize  = 12;
-        CBaseServer__ConnectClient->pattern      = "\x55\x89\xE5\x57\x56\x53\x81\xEC\x68\x05\x00\x00";
+        // Signature for FUN_00341a60:
+        // 55 89 e5 57 56 53 81 ec 68 05 00 00 8b 5d 08 68 ?? ?? ?? ?? e8 ?? ?? ?? ?? 83 c4 10 8b 03 8b 40 5c 3d ?? ?? ?? ?? 0f 85 ?? ?? ?? ??
+        CBaseServer__ConnectClient->patternSize  = 44;
+        CBaseServer__ConnectClient->pattern      = "\x55\x89\xE5\x57\x56\x53\x81\xEC\x68\x05\x00\x00\x8B\x5D\x08\x68\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x83\xC4\x10\x8B\x03\x8B\x40\x5C\x3D\x2A\x2A\x2A\x2A\x0F\x85\x2A\x2A\x2A\x2A";
     #endif
     #endif
 
@@ -806,13 +806,13 @@ void CClientState__FullConnect_Init()
     #ifdef PLATFORM_WINDOWS
     #ifdef PLATFORM_64BITS
         // name:gigalib-detour-CClientState::FullConnect-win64
-        // Signature for   LAB_1800a29c0:
+        // Signature for LAB_1800a29c0:
         // 48 89 5c 24 08 48 89 74 24 10 57 48 83 ec 20 48 8b f2 48 8b f9 e8 ?? ?? ?? ?? 48 8b 4f 20 48 8b 15 ?? ?? ?? ??
         CClientState__FullConnect->patternSize = 37;
         CClientState__FullConnect->pattern = "\x48\x89\x5C\x24\x08\x48\x89\x74\x24\x10\x57\x48\x83\xEC\x20\x48\x8B\xF2\x48\x8B\xF9\xE8\x2A\x2A\x2A\x2A\x48\x8B\x4F\x20\x48\x8B\x15\x2A\x2A\x2A\x2A";
     #else
         // name:gigalib-detour-CClientState::FullConnect-win32
-        // Signature for FUN_100b6d20 (branch previous2021: sub_100D0450)
+        // Signature for FUN_100b6d20:
         // 55 8B EC 53 8B 5D 08 56 57 53 8B F9 E8 ?? ?? ?? ?? 8B 4F 10
         CClientState__FullConnect->patternSize   = 20;
         CClientState__FullConnect->pattern       = "\x55\x8B\xEC\x53\x8B\x5D\x08\x56\x57\x53\x8B\xF9\xE8\x2A\x2A\x2A\x2A\x8B\x4F\x10";
@@ -821,16 +821,16 @@ void CClientState__FullConnect_Init()
     #ifdef PLATFORM_64BITS
         // name:gigalib-detour-CClientState::FullConnect-linux64
         // Signature for FUN_004eef50:
-        // 55 48 89 e5 41 56 41 55 41 54 49 89 f4 53 48 89 fb e8 ?? ?? ?? ??
-        CClientState__FullConnect->patternSize = 22;
-        CClientState__FullConnect->pattern = "\x55\x48\x89\xE5\x41\x56\x41\x55\x41\x54\x49\x89\xF4\x53\x48\x89\xFB\xE8\x2A\x2A\x2A\x2A";
+        // 55 48 89 e5 41 56 41 55 41 54 49 89 f4 53 48 89 fb e8 ?? ?? ?? ?? 48 8b 7b 20 48 8d 15 ?? ?? ?? ?? 48 8b 07 48 8b 32 ff 90 f8 00 00 00 4c 8b 6b 20
+        CClientState__FullConnect->patternSize = 49;
+        CClientState__FullConnect->pattern = "\x55\x48\x89\xE5\x41\x56\x41\x55\x41\x54\x49\x89\xF4\x53\x48\x89\xFB\xE8\x2A\x2A\x2A\x2A\x48\x8B\x7B\x20\x48\x8D\x15\x2A\x2A\x2A\x2A\x48\x8B\x07\x48\x8B\x32\xFF\x90\xF8\x00\x00\x00\x4C\x8B\x6B\x20";
     #else
         // name:gigalib-detour-CClientState::FullConnect-linux32
-        // Signature for _ZN16CBaseClientState11FullConnectER8netadr_s:
-        // 55 89 E5 57 56 53 83 EC 28 8B 5D 08 68 ?? ?? ?? ??
+        // Signature for FUN_0023b8c0:
+        // 55 89 e5 57 56 53 83 ec 28 8b 5d 08 68 ?? ?? ?? ?? 8b 75 0c e8 ?? ?? ?? ?? 59 5f 6a 18 6a 00 53 68 ?? ?? ?? ??
         // \x55\x89\xE5\x57\x56\x53\x83\xEC\x28\x8B\x5D\x08\x68\x2A\x2A\x2A\x2A
-        CClientState__FullConnect->patternSize   = 17;
-        CClientState__FullConnect->pattern       = "\x55\x89\xE5\x57\x56\x53\x83\xEC\x28\x8B\x5D\x08\x68\x2A\x2A\x2A\x2A";
+        CClientState__FullConnect->patternSize   = 37;
+        CClientState__FullConnect->pattern       = "\x55\x89\xE5\x57\x56\x53\x83\xEC\x28\x8B\x5D\x08\x68\x2A\x2A\x2A\x2A\x8B\x75\x0C\xE8\x2A\x2A\x2A\x2A\x59\x5F\x6A\x18\x6A\x00\x53\x68\x2A\x2A\x2A\x2A";
     #endif
     #endif
 
