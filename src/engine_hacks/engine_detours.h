@@ -20,33 +20,6 @@
 #endif
 
 #include <valve_minmax_on.h>
-
-#ifdef _WIN32
-// hack because theres no macro for DEBUG that i can find
-// feel free to PR to add it to vpc if you know of one
-#ifdef DEBUG
-#ifdef _WIN64
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/x64/PolyHook_2.lib")
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/x64/Zydis.lib")
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/x64/asmjit.lib")
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/x64/asmtk.lib")
-#else
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/PolyHook_2.lib")
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/debug/Zydis.lib")
-#endif
-#else
-#ifdef _WIN64
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/x64/PolyHook_2.lib")
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/x64/Zydis.lib")
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/x64/asmjit.lib")
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/x64/asmtk.lib")
-#else
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/PolyHook_2.lib")
-#pragma comment(lib, "../shared/sdk13-gigalib/src/polyhook/bin/release/Zydis.lib")
-#endif
-#endif
-#endif
-
 #include <helpers/misc_helpers.h>
 #include <memy/memytools.h>
 #ifdef CLIENT_DLL

@@ -6,33 +6,6 @@
 extern "C" { FILE __iob_func[3] = { *stdin,*stdout,*stderr }; }
 #endif
 
-
-#ifdef _WIN64
-    #define curlLibPath "../shared/sdk13-gigalib/bin/curl/lib/x64/"
-    #pragma comment( lib, curlLibPath "libcurl.dll.a"               )
-#elif defined(_WIN32)
-
-    #define curlLibPath "../shared/sdk13-gigalib/bin/curl/lib/"
-
-    //#pragma comment( lib, curlLibPath "libbrotlicommon.a"           )
-    //#pragma comment( lib, curlLibPath "libbrotlidec.a"              )
-    //#pragma comment( lib, curlLibPath "libcrypto.a"                 )
-    //#pragma comment( lib, curlLibPath "libcurl.a"                   )
-    #pragma comment( lib, curlLibPath "libcurl.dll.a"               )
-    //#pragma comment( lib, curlLibPath "libnghttp2.a"                )
-    //#pragma comment( lib, curlLibPath "libnghttp3.a"                )
-    //#pragma comment( lib, curlLibPath "libngtcp2.a"                 )
-    //#pragma comment( lib, curlLibPath "libngtcp2_crypto_quictls.a"  )
-    //#pragma comment( lib, curlLibPath "libssh2.a"                   )
-    //#pragma comment( lib, curlLibPath "libssl.a"                    )
-    //#pragma comment( lib, curlLibPath "libz.a"                      )
-    //#pragma comment( lib, curlLibPath "libzstd.a"                   )
-
-#endif
-
-
-
-
 #include <sdkCURL/vendored/curl.h>
 #include <sdkCURL/vendored/easy.h>
 #include <helpers/misc_helpers.h>
